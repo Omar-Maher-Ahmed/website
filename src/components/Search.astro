@@ -1,0 +1,341 @@
+---
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articles');
+const searchIndex = allArticles.map(article => ({
+  id: article.id,
+  title: article.data.title,
+  description: article.data.description,
+  category: article.data.category,
+  tags: article.data.tags || [],
+  url: `/articles/${article.id}`,
+  articleNumber: article.data.articleNumber,
+}));
+---
+
+<div class="search-overlay" id="search-overlay">
+  <div class="search-panel">
+    <div class="search-header">
+      <svg class="search-modal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="search-input" class="search-input-modal" placeholder="ابحث في المقالات أو المواضيع أو الوسوم..." data-i18n="searchModalPlaceholder" autocomplete="off" />
+      <button class="close-btn" id="close-search" aria-label="Close search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    
+    <div class="search-results" id="search-results">
+      <div class="empty-state" id="search-empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <p data-i18n="searchEmpty">اكتب للبحث في المقالات والتصنيفات والكلمات المفتاحية</p>
+      </div>
+      <div class="results-list" id="results-list" style="display: none;"></div>
+    </div>
+    
+    <div class="search-footer">
+      <span class="tip"><kbd>ESC</kbd> <span data-i18n="escToClose">ESC للإغلاق</span></span>
+      <span class="tip"><kbd>↑</kbd><kbd>↓</kbd> <span data-i18n="navigate">↑↓ للتنقل</span></span>
+      <span class="tip"><kbd>↵</kbd> <span data-i18n="select">↵ للاختيار</span></span>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ searchIndex }}>
+  const overlay = document.getElementById('search-overlay');
+  const closeBtn = document.getElementById('close-search');
+  const input = document.getElementById('search-input');
+  const emptyState = document.getElementById('search-empty-state');
+  const resultsList = document.getElementById('results-list');
+  
+  const openSearch = () => {
+    if (overlay && input) {
+      overlay.classList.add('active');
+      setTimeout(() => input.focus(), 50);
+    }
+  };
+  
+  const closeSearch = () => {
+    if (overlay) overlay.classList.remove('active');
+    if (input) input.value = '';
+    renderResults([]);
+  };
+  
+  if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeSearch();
+    });
+  }
+  
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    } else if (e.key === 'Escape' && overlay?.classList.contains('active')) {
+      closeSearch();
+    }
+  });
+
+  const renderResults = (results) => {
+    if (!resultsList || !emptyState) return;
+    
+    if (results.length === 0) {
+      if (input && input.value.trim().length > 0) {
+        emptyState.innerHTML = '<p>No results found for "' + input.value.replace(/</g, '&lt;') + '"</p>';
+        emptyState.style.display = 'flex';
+        resultsList.style.display = 'none';
+      } else {
+        emptyState.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><p>Type to search articles, categories, or keywords</p>';
+        emptyState.style.display = 'flex';
+        resultsList.style.display = 'none';
+      }
+      return;
+    }
+    
+    emptyState.style.display = 'none';
+    resultsList.style.display = 'flex';
+    resultsList.innerHTML = results.map(item => `
+      <a href="${item.url}" class="result-item">
+        <div class="result-header">
+          <span class="result-cat">${item.category}</span>
+          ${item.articleNumber ? `<span class="result-num">#${item.articleNumber.toString().padStart(3, '0')}</span>` : ''}
+        </div>
+        <div class="result-title">${item.title}</div>
+        <div class="result-desc">${item.description}</div>
+      </a>
+    `).join('');
+  };
+
+  input?.addEventListener('input', (e) => {
+    const q = (e.target.value || '').trim().toLowerCase();
+    if (!q) {
+      renderResults([]);
+      return;
+    }
+    
+    const matches = searchIndex.filter(item => {
+      return item.title.toLowerCase().includes(q) ||
+        item.description.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q) ||
+        item.tags.some(t => t.toLowerCase().includes(q));
+    });
+    
+    renderResults(matches);
+  });
+</script>
+
+<style>
+  /* Glass Overlay */
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(10, 14, 20, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 999;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+  }
+  
+  .light-theme .search-overlay {
+    background-color: rgba(15, 23, 42, 0.35);
+  }
+  
+  .search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .search-panel {
+    width: 100%;
+    max-width: 620px;
+    background: var(--glass-2-bg);
+    backdrop-filter: var(--glass-2-blur);
+    -webkit-backdrop-filter: var(--glass-2-blur);
+    border: 1px solid var(--glass-2-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-2-shadow), 0 24px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: translateY(-20px) scale(0.98);
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+  }
+  
+  .search-overlay.active .search-panel {
+    transform: translateY(0) scale(1);
+  }
+  
+  .search-header {
+    display: flex;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--glass-2-border);
+    background: var(--glass-hover-bg);
+    gap: var(--space-3);
+  }
+  
+  .search-modal-icon {
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+  }
+  
+  .search-input-modal {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.0625rem;
+    outline: none;
+    font-family: var(--font-sans);
+  }
+  
+  .search-input-modal::placeholder {
+    color: var(--text-muted);
+  }
+  
+  .close-btn {
+    background: var(--glass-5-bg);
+    border: 1px solid var(--glass-5-border);
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+  }
+  
+  .close-btn:hover {
+    color: var(--text-primary);
+    background: var(--glass-5-hover);
+    border-color: var(--accent-cyan-dim);
+  }
+  
+  .search-results {
+    padding: var(--space-4);
+    overflow-y: auto;
+    flex: 1;
+    min-height: 180px;
+    max-height: 55vh;
+  }
+  
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    gap: var(--space-3);
+    padding: var(--space-8) var(--space-4);
+    text-align: center;
+  }
+  
+  .empty-state p {
+    font-size: 0.875rem;
+  }
+  
+  .results-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  
+  :global(.result-item) {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--glass-3-bg);
+    border: 1px solid var(--glass-3-border);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+  }
+  
+  :global(.result-item:hover) {
+    background: var(--glass-card-hover-bg);
+    border-color: var(--glass-card-hover-border);
+    box-shadow: var(--glass-glow);
+    transform: translateX(3px);
+  }
+  
+  :global(.result-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-1);
+  }
+  
+  :global(.result-cat) {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  :global(.result-num) {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+  }
+  
+  :global(.result-title) {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+  
+  :global(.result-desc) {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  
+  .search-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    border-top: 1px solid var(--glass-2-border);
+    background: var(--glass-hover-bg);
+  }
+  
+  .tip {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+  
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    background: var(--glass-4-bg);
+    border: 1px solid var(--glass-4-border);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+  }
+  
+  @media (max-width: 640px) {
+    .search-panel {
+      margin: 0 var(--space-3);
+    }
+    
+    .search-footer {
+      display: none;
+    }
+  }
+</style>

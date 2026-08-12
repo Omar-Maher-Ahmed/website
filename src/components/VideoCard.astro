@@ -1,0 +1,176 @@
+---
+interface Props {
+  url: string;
+  title?: string;
+}
+
+const { url, title = "Watch the Video" } = Astro.props;
+
+// Extract YouTube ID for thumbnail
+const getYoutubeId = (url: string) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+
+const id = getYoutubeId(url);
+const thumbnailUrl = id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : null;
+---
+
+<div class="glass-video">
+  <div class="video-screen">
+    {thumbnailUrl ? (
+      <img src={thumbnailUrl} alt={title} class="thumbnail" />
+    ) : (
+      <div class="thumbnail-placeholder"></div>
+    )}
+    
+    <a href={url} target="_blank" rel="noopener noreferrer" class="play-overlay" aria-label={`Play ${title}`}>
+      <div class="play-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      </div>
+    </a>
+  </div>
+  
+  <div class="video-panel">
+    <div class="panel-text">
+      <div class="panel-label">VIDEO TUTORIAL</div>
+      <div class="panel-title">{title}</div>
+    </div>
+    <a href={url} target="_blank" rel="noopener noreferrer" class="external-link glass-btn" aria-label="Open on YouTube">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  .glass-video {
+    background: var(--glass-3-bg);
+    backdrop-filter: var(--glass-3-blur);
+    -webkit-backdrop-filter: var(--glass-3-blur);
+    border: 1px solid var(--glass-3-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: var(--space-8) 0;
+    box-shadow: var(--glass-3-shadow);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  }
+  
+  .glass-video:hover {
+    transform: translateY(-3px);
+    border-color: var(--glass-card-hover-border);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
+  
+  .video-screen {
+    position: relative;
+    aspect-ratio: 16/9;
+    background-color: #0f172a;
+    overflow: hidden;
+    border-bottom: 1px solid var(--glass-border-subtle);
+  }
+  
+  .thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: opacity var(--transition-normal), transform var(--transition-slow);
+  }
+  
+  .glass-video:hover .thumbnail {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  
+  .thumbnail-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--glass-3-bg), var(--glass-4-bg));
+  }
+  
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(15, 23, 42, 0.3);
+    transition: background-color var(--transition-fast);
+  }
+  
+  .play-overlay:hover {
+    background-color: rgba(15, 23, 42, 0.1);
+  }
+  
+  .play-btn {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  }
+  
+  .play-overlay:hover .play-btn {
+    transform: scale(1.08);
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 8px 32px var(--accent-cyan-dim);
+  }
+  
+  .play-overlay:hover .play-btn svg {
+    fill: #ffffff;
+    stroke: #ffffff;
+  }
+  
+  .video-panel {
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--video-panel-bg);
+  }
+  
+  .panel-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  
+  .panel-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+  }
+  
+  .glass-btn {
+    background: var(--glass-5-bg);
+    border: 1px solid var(--glass-5-border);
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+  
+  .glass-btn:hover {
+    color: var(--accent-cyan);
+    background: var(--glass-5-hover);
+    border-color: var(--accent-cyan-dim);
+    transform: translateY(-1px);
+  }
+</style>

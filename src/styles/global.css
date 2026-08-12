@@ -1,0 +1,152 @@
+@import './tokens.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--bg-space);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* RTL & Arabic Typography */
+html[dir="rtl"] body {
+  font-family: 'Cairo', var(--font-sans);
+}
+
+html[dir="rtl"] .main-title,
+html[dir="rtl"] .card-heading,
+html[dir="rtl"] .title,
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3 {
+  font-family: 'Cairo', var(--font-sans);
+}
+
+/* Logical borders for sidebar in RTL */
+html[dir="rtl"] .sidebar {
+  border-right: none;
+  border-left: 1px solid var(--glass-1-border);
+}
+
+/* Atmospheric Ambient Background */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity var(--transition-slow);
+}
+
+body::before {
+  top: -15%;
+  left: -10%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, var(--ambient-cyan) 0%, var(--ambient-blue) 45%, transparent 70%);
+}
+
+body::after {
+  bottom: -15%;
+  right: -10%;
+  width: 65vw;
+  height: 65vw;
+  background: radial-gradient(circle, var(--ambient-purple) 0%, var(--ambient-cyan) 40%, transparent 70%);
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+#root, #__next, body {
+  isolation: isolate;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Glass UI Component Classes */
+.glass-panel {
+  background: var(--glass-2-bg);
+  backdrop-filter: var(--glass-2-blur);
+  -webkit-backdrop-filter: var(--glass-2-blur);
+  border: 1px solid var(--glass-2-border);
+  box-shadow: var(--glass-2-shadow);
+  border-radius: var(--radius-lg);
+  position: relative;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.glass-floating {
+  background: var(--glass-3-bg);
+  backdrop-filter: var(--glass-3-blur);
+  -webkit-backdrop-filter: var(--glass-3-blur);
+  border: 1px solid var(--glass-3-border);
+  box-shadow: var(--glass-3-shadow);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+}
+
+/* Shiki Dual-Theme Code Blocks */
+.astro-code {
+  background-color: var(--cmd-screen-bg) !important;
+  border: 1px solid var(--cmd-screen-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-mono);
+  box-shadow: var(--glass-inner-shadow);
+  overflow-x: auto;
+}
+
+.astro-code span {
+  color: var(--shiki-dark);
+}
+
+.light-theme .astro-code span {
+  color: var(--shiki-light);
+}
+
+/* Custom Glass Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-5-bg);
+  border-radius: 4px;
+  border: 1px solid var(--glass-5-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan-dim);
+}

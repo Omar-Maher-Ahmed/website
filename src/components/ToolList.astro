@@ -1,0 +1,141 @@
+---
+interface Tool {
+  name: string;
+  description: string;
+  i18nDesc?: string;
+  url?: string;
+}
+
+interface Props {
+  tools: Tool[];
+}
+
+const { tools } = Astro.props;
+---
+
+<div class="glass-tools">
+  <div class="board-header" data-i18n="toolsUsed">TOOLS USED</div>
+  <ul class="tool-list">
+    {tools.map((tool, index) => (
+      <li class="tool-item">
+        {tool.url ? (
+          <a href={tool.url} target="_blank" rel="noopener noreferrer" class="tool-link">
+            <span class="tool-num">{(index + 1).toString().padStart(2, '0')}</span>
+            <div class="tool-info">
+              <span class="tool-name">{tool.name}</span>
+              <span class="tool-desc" {...(tool.i18nDesc ? { 'data-i18n': tool.i18nDesc } : {})}>{tool.description}</span>
+            </div>
+            <span class="external-icon">↗</span>
+          </a>
+        ) : (
+          <div class="tool-link static">
+            <span class="tool-num">{(index + 1).toString().padStart(2, '0')}</span>
+            <div class="tool-info">
+              <span class="tool-name">{tool.name}</span>
+              <span class="tool-desc" {...(tool.i18nDesc ? { 'data-i18n': tool.i18nDesc } : {})}>{tool.description}</span>
+            </div>
+          </div>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .glass-tools {
+    margin: var(--space-8) 0;
+  }
+  
+  .board-header {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-4);
+  }
+  
+  .tool-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .tool-link {
+    display: flex;
+    align-items: center;
+    background: var(--glass-4-bg);
+    backdrop-filter: var(--glass-4-blur);
+    -webkit-backdrop-filter: var(--glass-4-blur);
+    border: 1px solid var(--glass-4-border);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-normal);
+    box-shadow: var(--glass-4-shadow);
+    text-decoration: none;
+  }
+  
+  .tool-link:not(.static):hover {
+    background: var(--glass-card-hover-bg);
+    border-color: var(--glass-card-hover-border);
+    transform: translateX(4px);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
+  
+  .tool-link:not(.static):hover .tool-name {
+    color: var(--accent-cyan);
+  }
+  
+  .tool-num {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-right: var(--space-6);
+    width: 24px;
+    flex-shrink: 0;
+  }
+  
+  .tool-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .tool-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1.0625rem;
+    margin-bottom: 2px;
+    transition: color var(--transition-fast);
+  }
+  
+  .tool-desc {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  
+  .external-icon {
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    margin-left: var(--space-3);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+  
+  .tool-link:hover .external-icon {
+    color: var(--accent-cyan);
+    transform: translate(2px, -2px);
+  }
+  
+  @media (max-width: 640px) {
+    .tool-link {
+      padding: var(--space-3);
+    }
+    
+    .tool-num {
+      margin-right: var(--space-4);
+    }
+  }
+</style>

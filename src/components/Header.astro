@@ -1,0 +1,219 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageToggle from './LanguageToggle.astro';
+import Search from './Search.astro';
+---
+
+<header class="app-header">
+  <a href="/" class="mobile-logo brand hide-on-desktop" aria-label="Home">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+  </a>
+  
+  <div class="search-container">
+    <div class="search-input-wrapper" id="header-search-trigger">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <div class="search-input" data-i18n="searchPlaceholder">ابحث في المقالات...</div>
+      <div class="search-shortcut">/</div>
+    </div>
+  </div>
+  
+  <div class="header-actions">
+    <a href="https://youtube.com/@LimeDevhub" target="_blank" rel="noopener noreferrer" class="action-btn hide-on-mobile">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+      <span>YouTube</span>
+    </a>
+    
+    <a href="https://github.com/LimeDevhub" target="_blank" rel="noopener noreferrer" class="action-btn hide-on-mobile">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      <span>GitHub</span>
+    </a>
+    
+    <LanguageToggle />
+    <ThemeToggle />
+    
+    <button class="mobile-menu-btn action-btn icon-only" id="mobile-menu-btn" aria-label="Toggle menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </div>
+  
+  <Search />
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  
+  if (btn && sidebar) {
+    btn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+  }
+
+  // Hook up the header search input to open the modal
+  const headerSearchTrigger = document.getElementById('header-search-trigger');
+  const overlay = document.getElementById('search-overlay');
+  const input = document.getElementById('search-input');
+  
+  if (headerSearchTrigger && overlay) {
+    headerSearchTrigger.addEventListener('click', () => {
+      overlay.classList.add('active');
+      setTimeout(() => input?.focus(), 50);
+    });
+  }
+</script>
+
+<style>
+  .app-header {
+    height: var(--header-height);
+    background: var(--glass-1-bg);
+    backdrop-filter: var(--glass-1-blur);
+    -webkit-backdrop-filter: var(--glass-1-blur);
+    border-bottom: 1px solid var(--glass-1-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-6);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+  }
+  
+  .mobile-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+    background: var(--glass-5-bg);
+    border: 1px solid var(--glass-5-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+  }
+  
+  .search-container {
+    flex: 1;
+    max-width: 480px;
+  }
+  
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--glass-5-bg);
+    backdrop-filter: var(--glass-5-blur);
+    -webkit-backdrop-filter: var(--glass-5-blur);
+    border: 1px solid var(--glass-5-border);
+    border-radius: var(--radius-md);
+    padding: 0 var(--space-4);
+    height: 40px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--glass-highlight-top);
+  }
+  
+  .search-input-wrapper:hover {
+    background: var(--glass-5-hover);
+    border-color: var(--accent-cyan-dim);
+    box-shadow: var(--glass-glow), var(--glass-highlight-top);
+  }
+  
+  .search-icon {
+    color: var(--accent-cyan);
+    margin-inline-end: var(--space-3);
+    flex-shrink: 0;
+  }
+  
+  .search-input {
+    flex: 1;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    user-select: none;
+  }
+  
+  .search-shortcut {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--glass-4-bg);
+    border: 1px solid var(--glass-4-border);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 38px;
+    padding: 0 var(--space-3);
+    background: var(--glass-5-bg);
+    backdrop-filter: var(--glass-5-blur);
+    -webkit-backdrop-filter: var(--glass-5-blur);
+    border: 1px solid var(--glass-5-border);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: var(--glass-highlight-top);
+  }
+  
+  .action-btn:hover {
+    color: var(--accent-cyan);
+    background: var(--glass-5-hover);
+    border-color: var(--accent-cyan-dim);
+    box-shadow: var(--glass-glow), var(--glass-highlight-top);
+    transform: translateY(-1px);
+  }
+  
+  .action-btn.icon-only {
+    padding: 0;
+    width: 38px;
+    justify-content: center;
+  }
+  
+  .hide-on-desktop {
+    display: none;
+  }
+  
+  @media (max-width: 992px) {
+    .hide-on-desktop {
+      display: flex;
+    }
+    
+    .hide-on-mobile {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .app-header {
+      padding: 0 var(--space-3);
+    }
+    
+    .search-container {
+      margin: 0 var(--space-2);
+    }
+    
+    .search-shortcut {
+      display: none;
+    }
+  }
+</style>

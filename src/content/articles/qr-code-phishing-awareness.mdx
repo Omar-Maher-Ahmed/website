@@ -1,0 +1,110 @@
+---
+title: "Understanding QR Code Phishing (Qshing) & Security Defenses"
+titleAr: "اختراق عن طريق QR Code (Qshing) والتوعية الأمنية"
+description: "An analysis of how QR codes can be leveraged in social engineering attacks, the mechanics of rogue links, and defensive awareness."
+descriptionAr: "تحليل عملي وتطبيقي لكيفية استغلال رموز الـ QR في هجمات الهندسة الاجتماعية، استخدام خوادم Segfault و LocalXpose، وطرق الحماية."
+category: "Security"
+tags:
+  - Security
+  - Awareness
+  - Networking
+  - Linux
+publishedAt: "2026-08-12"
+articleNumber: 1
+youtubeUrl: "https://youtube.com/@LimeDevhub"
+tools:
+  - name: "Segfault SSH"
+    description: "Remote Linux Security Lab"
+    i18nDesc: "article1Tool1Desc"
+  - name: "LocalXpose"
+    description: "Reverse Tunneling Service"
+    i18nDesc: "article1Tool2Desc"
+  - name: "zphisher"
+    description: "Phishing Assessment Framework"
+    i18nDesc: "article1Tool3Desc"
+  - name: "QR Generator"
+    description: "URL to 2D Barcode Encoder"
+    i18nDesc: "article1Tool4Desc"
+---
+import CommandBlock from '../../components/CommandBlock.astro';
+import ToolList from '../../components/ToolList.astro';
+
+<h2 data-i18n="article1OverviewHeading">🎯 نظرة عامة على المفهوم</h2>
+
+<p data-i18n="article1OverviewText">رموز الاستجابة السريعة (<strong>QR Codes</strong>) هي ببساطة تمثيل بصري للبيانات، وغالباً ما تحتوي على روابط ويب (URLs). نظراً لأن العين البشرية لا تستطيع قراءة أو فحص محتوى الـ QR Code بالعين المجردة، يستغل المهاجمون هذه النقطة في هجمات الهندسة الاجتماعية فيما يُعرف بمصطلح <strong>Qshing</strong> (QR Phishing).</p>
+
+```text
+Linux Machine (Segfault)
+       │
+       ▼
+   Web Server (zphisher)
+       │
+       ▼
+   Web Page
+       │
+       ▼
+   QR Code
+       │
+       ▼
+ Victim's Phone
+```
+
+---
+
+<h2 data-i18n="article1ToolsHeading">🛠️ الأدوات والمصادر المستخدمة</h2>
+
+<p data-i18n="article1ToolsSub">في هذه التجربة التعليمية في المختبر الآمن، تم استخدام الأدوات التالية:</p>
+
+<ToolList tools={[
+  { name: "Segfault (THC)", description: "بيئة لينكس سحابية آمنة ومؤقتة تتيح تجربة الأدوات بدون تثبيت شيء على جهازك الشخصي.", i18nDesc: "article1Tool1Desc", url: "https://www.thc.org/segfault/" },
+  { name: "LocalXpose", description: "خدمة Reverse Tunneling لفتح منفذ مؤقت إلى الإنترنت الخارجي لاختبار الاتصال.", i18nDesc: "article1Tool2Desc", url: "https://localxpose.io/" },
+  { name: "zphisher", description: "إطار عمل تعليمي مفتوح المصدر لمحاكاة صفحات تسجيل الدخول وفهم أساليب التصيد.", i18nDesc: "article1Tool3Desc", url: "https://github.com/htr-tech/zphisher" },
+  { name: "QR Code Generator", description: "أداة لتحويل الرابط المولد إلى رمز QR يمكن قراءته بواسطة كاميرات الهواتف.", i18nDesc: "article1Tool4Desc", url: "https://www.qr-code-generator.com/" }
+]} />
+
+---
+
+<h2 data-i18n="article1StepsHeading">⚡ خطوات التنفيذ العملية (في المختبر الآمن)</h2>
+
+<h3 data-i18n="article1Step1Title">1. الاتصال ببيئة لينكس السحابية (Segfault)</h3>
+
+<CommandBlock 
+  command="ssh root@segfault.net"
+  comment="الاتصال بـ Segfault عبر SSH (كلمة المرور الافتراضية: segfault)"
+  i18nComment="article1Step1Comment"
+/>
+
+---
+
+<h3 data-i18n="article1Step2Title">2. تحميل وتشغيل أداة محاكاة التصيد (zphisher)</h3>
+
+<CommandBlock 
+  command="git clone --depth=1 https://github.com/htr-tech/zphisher.git"
+  comment="استنساخ مستودع zphisher بسرعة وبأحدث إصدار"
+  i18nComment="article1Step2Comment1"
+/>
+
+<CommandBlock 
+  command="cd zphisher && bash zphisher.sh"
+  comment="الدخول إلى المجلد وتشغيل أداة zphisher التفاعلية"
+  i18nComment="article1Step2Comment2"
+/>
+
+---
+
+<h3 data-i18n="article1Step3Title">3. إنشاء النفق وتحويل الرابط إلى QR Code</h3>
+
+<p data-i18n="article1Step3Point1">1. يتم اختيار خدمة فتح النفق (مثل <strong>LocalXpose</strong>) للحصول على رابط إنترنت خارجي.</p>
+<p data-i18n="article1Step3Point2">2. نقوم بأخذ الرابط الناتج ووضعه في أداة <strong>QR Code Generator</strong> لإنشاء الرمز الصوري.</p>
+<p data-i18n="article1Step3Point3">3. بمجرد قيام الهاتف بمسح الرمز، يتم توجيهه إلى الصفحة المحاكية في بيئة الفحص.</p>
+
+---
+
+<h2 data-i18n="article1DefenseHeading">🛡️ طرق الكشف والتوعية الأمنية (Defensive Measures)</h2>
+
+<p data-i18n="article1DefenseSub">للحماية من هجمات الـ QR Phishing في الحياة اليومية:</p>
+
+<p data-i18n="article1Def1"><strong>معاينة الرابط قبل الفتح:</strong> كاميرات الهواتف الذكية الحديثة تعرض الرابط المفكك قبل النقر عليه. يجب دائماً فحص اسم النطاق (Domain) والتأكد من عدم وجود أخطاء إملائية (Typo-squatting).</p>
+<p data-i18n="article1Def2"><strong>المصادقة الثنائية (MFA / 2FA):</strong> استخدام مفاتيح الأمان الفيزيائية أو تطبيقات المصادقة (Authenticator Apps) يمنع سرقة الحسابات حتى في حال إدخال كلمة المرور.</p>
+<p data-i18n="article1Def3"><strong>فحص الرموز الفيزيائية:</strong> التأكد من عدم وجود ملصق QR مزيف تم لصقه يدوياً فوق الرمز الحقيقي في المطاعم أو مواقف السيارات أو الفواتير.</p>
+<p data-i18n="article1Def4"><strong>تجنب تثبيت برامج غير معروفة:</strong> عدم تحميل أي تطبيقات APK أو إعطاء صلاحيات للنظام من خلال مسح كود غير موثوق.</p>

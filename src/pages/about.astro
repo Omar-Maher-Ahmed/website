@@ -1,0 +1,434 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About | LimeDev" description="Learn about LimeDev's mission, philosophy, skill acquisition, and technical journey.">
+  <div class="about-container">
+    
+    <!-- Hero Header -->
+    <header class="about-hero">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span data-i18n="aboutBadge">الرؤية والهدف والرسالة</span>
+      </div>
+      <h1 class="main-title" data-i18n="aboutMainTitle">BUILD. BREAK. LEARN. GROW.</h1>
+      <p class="hero-tagline" data-i18n="aboutTagline">
+        رحلة للتعلم العميق، اكتساب المهارات التقنية الحقيقية، وتطوير الذات من خلال الفهم والتطبيق العملي.
+      </p>
+    </header>
+
+    <!-- Main Bento Layout -->
+    <div class="about-grid">
+      
+      <!-- Vision Card -->
+      <section class="glass-panel vision-card">
+        <div class="card-tag" data-i18n="aboutVisionTag">01 / رؤيتنا</div>
+        <h2 class="card-heading" data-i18n="aboutVisionHeading">ليه عملنا LimeDev؟</h2>
+        <p class="card-text" data-i18n="aboutVisionP1">
+          قناة وموقع LimeDev اتعملت بهدف واضح: كسر حاجز الخوف من التقنيات المعقدة وتحويل التعلم من مجرد حفظ نظري إلى فهم تطبيقي عميق.
+        </p>
+        <p class="card-text" data-i18n="aboutVisionP2">
+          بنركز على مفاهيم الـ Cybersecurity، أنظمة Linux، البرمجة، والـ Networking من خلال مبدأ "Under the Hood" — يعني بنفكك التقنية ونفهم كل جزء فيها بيشتغل إزاي من الصفر.
+        </p>
+      </section>
+
+      <!-- Stats / Impact Card -->
+      <aside class="glass-floating stats-card">
+        <div class="card-tag" data-i18n="aboutValuesTag">القيم الأساسية</div>
+        <div class="values-list">
+          <div class="value-item">
+            <span class="value-icon">⚡</span>
+            <div>
+              <h4 data-i18n="aboutVal1Title">التعلم بالممارسة</h4>
+              <p data-i18n="aboutVal1Desc">تطبيق فوري وبناء مختبرات عملية حقيقية.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <span class="value-icon">🧠</span>
+            <div>
+              <h4 data-i18n="aboutVal2Title">العقلية التحليلية</h4>
+              <p data-i18n="aboutVal2Desc">تطوير التفكير المنطقي وحل المشكلات من جذورها.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <span class="value-icon">🚀</span>
+            <div>
+              <h4 data-i18n="aboutVal3Title">تطوير الذات المستمر</h4>
+              <p data-i18n="aboutVal3Desc">بناء مهارات تقنية تدوم وتفتح آفاق مستقبلية واعدة.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 4 Pillars Section -->
+      <section class="glass-panel pillars-card">
+        <div class="card-tag" data-i18n="aboutPillarsTag">02 / ركائز التميز والاحتراف</div>
+        <h2 class="card-heading" data-i18n="aboutPillarsHeading">الركائز الأساسية للمحتوى</h2>
+        
+        <div class="pillars-grid">
+          <div class="pillar-box">
+            <div class="pillar-number">01</div>
+            <h3 data-i18n="pillar1Title">الأمن السيبراني والمختبرات</h3>
+            <p data-i18n="pillar1Desc">فهم الثغرات الأمنية، آليات الحماية، الهندسة الاجتماعية، وطرق تأمين الأنظمة والشبكات.</p>
+          </div>
+
+          <div class="pillar-box">
+            <div class="pillar-number">02</div>
+            <h3 data-i18n="pillar2Title">احتراف أنظمة لينكس</h3>
+            <p data-i18n="pillar2Desc">السيطرة الكاملة على سطر الأوامر (CLI)، إدارة العمليات، الـ Shell Scripting، وبناء البيئات المعزولة.</p>
+          </div>
+
+          <div class="pillar-box">
+            <div class="pillar-number">03</div>
+            <h3 data-i18n="pillar3Title">الأنظمة وهندسة الشبكات</h3>
+            <p data-i18n="pillar3Desc">تحليل حزم البيانات، بروتوكولات الاتصال (TCP/IP, DNS, SSH)، وفهم كيفية انتقال البيانات عبر الإنترنت.</p>
+          </div>
+
+          <div class="pillar-box">
+            <div class="pillar-number">04</div>
+            <h3 data-i18n="pillar4Title">التطوير الذاتي والانضباط</h3>
+            <p data-i18n="pillar4Desc">بناء الانضباط الذاتي، إدارة الوقت للتعلم المستمر، ومواكبة التطور التقني السريع بدون تشتت.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA & Socials Banner -->
+      <section class="glass-floating cta-card">
+        <div class="cta-content">
+          <h3 data-i18n="aboutCtaTitle">جاهز تبدأ رحلتك التقنية؟</h3>
+          <p data-i18n="aboutCtaDesc">تابع الحلقات والشروحات العملية على يوتيوب واشترك في مجتمع المطورين والباحثين التقنيين.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="https://youtube.com/@LimeDevhub" target="_blank" rel="noopener noreferrer" class="glass-btn primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+            <span data-i18n="aboutCtaBtn">قناة يوتيوب</span>
+          </a>
+          <a href="/articles" class="glass-btn secondary" data-i18n="aboutBrowseBtn">
+            تصفح المقالات ←
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  /* Hero Section */
+  .about-hero {
+    margin-bottom: var(--space-12);
+    text-align: left;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--accent-cyan-dim);
+    border: 1px solid var(--glass-5-border);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-4);
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-cyan);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+  }
+
+  .main-title {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+    margin-bottom: var(--space-4);
+    letter-spacing: -0.02em;
+  }
+
+  .hero-tagline {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    line-height: 1.6;
+  }
+
+  /* Bento Grid */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-6);
+  }
+
+  .card-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-3);
+  }
+
+  .card-heading {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
+    line-height: 1.25;
+  }
+
+  .card-text {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  .card-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-text strong {
+    color: var(--text-primary);
+  }
+
+  .card-text em {
+    color: var(--accent-cyan);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* Vision Card */
+  .vision-card {
+    padding: var(--space-8);
+  }
+
+  /* Stats / Values Card */
+  .stats-card {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .values-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+  }
+
+  .value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    background: var(--glass-4-bg);
+    border: 1px solid var(--glass-4-border);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .value-item:hover {
+    background: var(--glass-card-hover-bg);
+    border-color: var(--glass-card-hover-border);
+    transform: translateX(4px);
+  }
+
+  .value-icon {
+    font-size: 1.375rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .value-item h4 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .value-item p {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Pillars Card */
+  .pillars-card {
+    grid-column: 1 / -1;
+    padding: var(--space-8);
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  .pillar-box {
+    background: var(--glass-3-bg);
+    backdrop-filter: var(--glass-3-blur);
+    -webkit-backdrop-filter: var(--glass-3-blur);
+    border: 1px solid var(--glass-3-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    position: relative;
+    transition: all var(--transition-normal);
+  }
+
+  .pillar-box:hover {
+    background: var(--glass-card-hover-bg);
+    border-color: var(--glass-card-hover-border);
+    transform: translateY(-3px);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
+
+  .pillar-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-box h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-box p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* CTA Banner */
+  .cta-card {
+    grid-column: 1 / -1;
+    padding: var(--space-8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .cta-content h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .cta-content p {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    margin: 0;
+    max-width: 500px;
+    line-height: 1.5;
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+
+  .glass-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    text-decoration: none;
+  }
+
+  .glass-btn.primary {
+    background: var(--primary-btn-bg);
+    border: 1px solid var(--primary-btn-border);
+    color: var(--primary-btn-text) !important;
+    box-shadow: var(--primary-btn-shadow);
+  }
+
+  .glass-btn.primary:hover {
+    background: var(--primary-btn-hover-bg);
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glass-glow), var(--primary-btn-shadow);
+    transform: translateY(-2px);
+  }
+
+  .glass-btn.secondary {
+    background: var(--glass-5-bg);
+    border: 1px solid var(--glass-5-border);
+    color: var(--text-primary);
+  }
+
+  .glass-btn.secondary:hover {
+    background: var(--glass-5-hover);
+    border-color: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 860px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .cta-actions {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .main-title {
+      font-size: 2.5rem;
+    }
+  }
+</style>

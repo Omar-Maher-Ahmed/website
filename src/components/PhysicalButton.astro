@@ -1,0 +1,71 @@
+---
+interface Props {
+  href?: string;
+  text: string;
+  icon?: string;
+  isPrimary?: boolean;
+}
+
+const { href, text, icon, isPrimary = false } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag href={href} class={`glass-action-btn ${isPrimary ? 'primary' : ''}`}>
+  {icon && <span class="btn-icon" set:html={icon} />}
+  <span class="btn-text">{text}</span>
+</Tag>
+
+<style>
+  .glass-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    background: var(--glass-5-bg);
+    backdrop-filter: var(--glass-5-blur);
+    -webkit-backdrop-filter: var(--glass-5-blur);
+    border: 1px solid var(--glass-5-border);
+    border-radius: var(--radius-full);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    text-decoration: none;
+    box-shadow: var(--glass-highlight-top);
+    gap: var(--space-3);
+  }
+  
+  .glass-action-btn:hover {
+    transform: translateY(-2px);
+    background: var(--glass-5-hover);
+    border-color: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    box-shadow: var(--glass-glow), var(--glass-highlight-top);
+  }
+  
+  .glass-action-btn.primary {
+    background: var(--primary-btn-bg);
+    border-color: var(--primary-btn-border);
+    color: var(--primary-btn-text);
+    box-shadow: var(--primary-btn-shadow);
+  }
+  
+  .glass-action-btn.primary:hover {
+    background: var(--primary-btn-hover-bg);
+    border-color: var(--accent-cyan);
+    color: var(--primary-btn-text);
+    box-shadow: var(--glass-glow), var(--primary-btn-shadow);
+  }
+  
+  .glass-action-btn:active {
+    transform: translateY(1px);
+  }
+  
+  .btn-icon {
+    display: flex;
+    align-items: center;
+  }
+</style>

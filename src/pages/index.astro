@@ -1,0 +1,778 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allArticles = await getCollection("articles");
+const sortedArticles = allArticles.sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+const latestArticle = sortedArticles[0];
+---
+
+<BaseLayout
+  title="LimeDev - Practical Tech & Security Labs"
+  description="Practical cybersecurity breakdowns, Linux mastery, networking protocols, and under-the-hood technical learning."
+>
+  <div class="home-container">
+    <!-- Hero Section -->
+    <header class="hero-section">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span data-i18n="heroBadge"
+          >شروحات وتطبيقات عملية في الأمان والأنظمة</span
+        >
+      </div>
+
+      <h1 class="main-title" data-i18n="homeMainTitle">
+        افهم التقنية من الصفر.
+      </h1>
+
+      <p class="hero-mission" data-i18n="homeMission">
+        من الكود لعمق النظام.. بنبني، بنفكك، وبنتعلم من التجربة الحقيقية. سكيورتي ولينكس بأسلوب عملي وبسيط.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/articles" class="glass-btn primary" data-i18n="openArchive">
+          استكشف المقالات
+        </a>
+        <a
+          href="https://youtube.com/@LimeDevhub"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="glass-btn secondary"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            ><path
+              d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"
+            ></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"
+            ></polygon></svg
+          >
+          <span data-i18n="watchYoutube">قناة يوتيوب</span>
+        </a>
+        <a href="/about" class="glass-btn ghost" data-i18n="aboutChannel">
+          فلسفة القناة
+        </a>
+      </div>
+    </header>
+
+    <!-- Top Bento Section: Latest Deep Dive + Terminal Lab -->
+    <div class="top-bento-grid">
+      <!-- Latest Featured Article -->
+      {
+        latestArticle && (
+          <section class="glass-panel latest-card">
+            <div class="card-tag">
+              <span class="tag-badge" data-i18n="latestEntry">
+                أحدث تحليل وشرح
+              </span>
+              <span class="entry-index">
+                #
+                {latestArticle.data.articleNumber
+                  ?.toString()
+                  .padStart(3, "0") || "001"}
+              </span>
+            </div>
+
+            <a href={`/articles/${latestArticle.id}`} class="latest-link">
+              <h2 class="latest-title">{latestArticle.data.title}</h2>
+              <p class="latest-desc">{latestArticle.data.description}</p>
+
+              <div class="latest-footer">
+                <div class="latest-tags">
+                  {latestArticle.data.tags.slice(0, 3).map((tag: string) => (
+                    <span class="mini-tag">{tag}</span>
+                  ))}
+                </div>
+                <span class="read-link" data-i18n="readBreakdown">
+                  اقرأ التحليل الكامل &rarr;
+                </span>
+              </div>
+            </a>
+          </section>
+        )
+      }
+
+      <!-- Terminal Lab Preview -->
+      <aside class="glass-floating terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="t-dot red"></span>
+            <span class="t-dot yellow"></span>
+            <span class="t-dot green"></span>
+          </div>
+          <span class="terminal-title">limedev@security-lab:~</span>
+        </div>
+        <div class="terminal-body">
+          <p class="cmd-line"><span class="prompt">$</span> whoami</p>
+          <p class="cmd-output cyan">LimeDev_Builder</p>
+
+          <p class="cmd-line">
+            <span class="prompt">$</span> cat /etc/limedev-mission.txt
+          </p>
+          <p class="cmd-output green">
+            "Learn by building, breaking, and mastering under the hood."
+          </p>
+
+          <p class="cmd-line">
+            <span class="prompt">$</span> systemctl status passion.service
+          </p>
+          <p class="cmd-output active">● passion.service - Skill Mastery</p>
+          <p class="cmd-sub-output">
+            Active: <span class="green-text">active (running)</span> since forever
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Quick Stats Bento Strip -->
+    <div class="stats-bento-strip">
+      <a href="/articles" class="glass-floating stat-box">
+        <span class="stat-num"
+          >{allArticles.length.toString().padStart(2, "0")}</span
+        >
+        <span class="stat-label" data-i18n="articlesCount">المقالات</span>
+      </a>
+
+      <a href="/articles" class="glass-floating stat-box">
+        <span class="stat-num">03</span>
+        <span class="stat-label" data-i18n="toolsCount">أدوات المختبر</span>
+      </a>
+
+      <a
+        href="https://youtube.com/@LimeDevhub"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glass-floating stat-box"
+      >
+        <span class="stat-num">01</span>
+        <span class="stat-label" data-i18n="videosCount">شروحات الفيديو</span>
+      </a>
+
+      <div class="glass-floating stat-box motto-box">
+        <span class="motto-tag" data-i18n="philosophyBadge">المبدأ الأساسي</span
+        >
+        <span class="motto-text" data-i18n="philosophyText"
+          >تعلم. ابنِ. فكك. كرر.</span
+        >
+      </div>
+    </div>
+
+    <!-- Focus Tracks Section -->
+    <section class="tracks-section">
+      <div class="section-title-wrap">
+        <h2 class="section-title" data-i18n="tracksHeader">
+          المسارات والمجالات التقنية
+        </h2>
+        <p class="section-subtitle" data-i18n="tracksSub">
+          أبرز المحاور التي نقوم بتفكيكها وشرحها بالتفصيل في القناة
+        </p>
+      </div>
+
+      <div class="tracks-grid">
+        <div class="glass-panel track-card">
+          <div class="track-icon cyan-glow">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+              ></path></svg
+            >
+          </div>
+          <h3 data-i18n="track1Title">الأمن السيبراني والهندسة الاجتماعية</h3>
+          <p data-i18n="track1Desc">
+            تفكيك مسارات الهجمات، التوعية الأمنية، وطرق تعزيز وحماية الأنظمة.
+          </p>
+        </div>
+
+        <div class="glass-panel track-card">
+          <div class="track-icon orange-glow">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><polyline points="4 17 10 11 4 5"></polyline><line
+                x1="12"
+                y1="19"
+                x2="20"
+                y2="19"></line></svg
+            >
+          </div>
+          <h3 data-i18n="track2Title">احتراف لينكس وسطر الأوامر</h3>
+          <p data-i18n="track2Desc">
+            إدارة العمليات، أتمتة الـ Bash، فهم معمارية النظام، وإدارة الخوادم.
+          </p>
+        </div>
+
+        <div class="glass-panel track-card">
+          <div class="track-icon purple-glow">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><circle cx="12" cy="12" r="10"></circle><line
+                x1="2"
+                y1="12"
+                x2="22"
+                y2="12"></line><path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"
+              ></path></svg
+            >
+          </div>
+          <h3 data-i18n="track3Title">الشبكات وبروتوكولات الاتصال</h3>
+          <p data-i18n="track3Desc">
+            تقنيات الـ Tunneling، فحص الحزم، بروتوكول SSH، وآليات انتقال
+            البيانات.
+          </p>
+        </div>
+
+        <div class="glass-panel track-card">
+          <div class="track-icon green-glow">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><rect x="2" y="3" width="20" height="14" rx="2" ry="2"
+              ></rect><line x1="8" y1="21" x2="16" y2="21"></line><line
+                x1="12"
+                y1="17"
+                x2="12"
+                y2="21"></line></svg
+            >
+          </div>
+          <h3 data-i18n="track4Title">بناء المختبرات والتجارب الآمنة</h3>
+          <p data-i18n="track4Desc">
+            إنشاء بيئات معزولة لاختبار الأدوات وفهم عملها بشكل آمن وتطبيقي.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .home-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-16);
+  }
+
+  /* Hero Section */
+  .hero-section {
+    margin-bottom: var(--space-10);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--accent-cyan-dim);
+    border: 1px solid var(--glass-5-border);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    letter-spacing: 0.03em;
+    margin-bottom: var(--space-4);
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-cyan);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+  }
+
+  .main-title {
+    font-family: var(--font-display);
+    font-size: 3.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.15;
+    margin-bottom: var(--space-4);
+    letter-spacing: -0.02em;
+  }
+
+  .hero-mission {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 720px;
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .glass-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    text-decoration: none;
+    box-shadow: var(--glass-highlight-top);
+  }
+
+  .glass-btn.primary {
+    background: var(--primary-btn-bg);
+    border: 1px solid var(--primary-btn-border);
+    color: var(--primary-btn-text) !important;
+    box-shadow: var(--primary-btn-shadow);
+  }
+
+  .glass-btn.primary:hover {
+    background: var(--primary-btn-hover-bg);
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glass-glow), var(--primary-btn-shadow);
+    transform: translateY(-2px);
+  }
+
+  .glass-btn.secondary {
+    background: var(--glass-5-bg);
+    border: 1px solid var(--glass-5-border);
+    color: var(--text-primary);
+  }
+
+  .glass-btn.secondary:hover {
+    background: var(--glass-5-hover);
+    border-color: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    transform: translateY(-2px);
+  }
+
+  .glass-btn.ghost {
+    background: transparent;
+    border: 1px solid var(--glass-4-border);
+    color: var(--text-secondary);
+  }
+
+  .glass-btn.ghost:hover {
+    background: var(--glass-5-bg);
+    border-color: var(--accent-cyan-dim);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+  }
+
+  /* Top Bento Grid */
+  .top-bento-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+
+  .latest-card {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all var(--transition-normal);
+  }
+
+  .latest-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--glass-card-hover-border);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
+
+  .card-tag {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .tag-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    background: var(--accent-cyan-dim);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .entry-index {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .latest-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .latest-title {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: var(--space-3);
+    transition: color var(--transition-fast);
+  }
+
+  .latest-card:hover .latest-title {
+    color: var(--accent-cyan);
+  }
+
+  .latest-desc {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-5);
+  }
+
+  .latest-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    border-top: 1px solid var(--glass-3-border);
+    padding-top: var(--space-4);
+  }
+
+  .latest-tags {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .mini-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-secondary);
+    background: var(--glass-4-bg);
+    border: 1px solid var(--glass-4-border);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+  }
+
+  .read-link {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+  }
+
+  /* Terminal Preview */
+  .terminal-card {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    background: var(--cmd-screen-bg);
+    border-color: var(--cmd-screen-border);
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    border-bottom: 1px solid var(--glass-4-border);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 6px;
+  }
+
+  .t-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .t-dot.red {
+    background: #ff5f56;
+  }
+  .t-dot.yellow {
+    background: #ffbd2e;
+  }
+  .t-dot.green {
+    background: #27c93f;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+  }
+
+  .terminal-body {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .cmd-line {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .prompt {
+    color: var(--accent-cyan);
+    margin-inline-end: 6px;
+  }
+
+  .cmd-output {
+    margin-inline-start: 12px;
+    font-size: 0.75rem;
+  }
+
+  .cmd-output.cyan {
+    color: var(--accent-cyan);
+  }
+  .cmd-output.green {
+    color: #27c93f;
+  }
+  .cmd-output.active {
+    color: var(--text-secondary);
+  }
+
+  .cmd-sub-output {
+    margin-inline-start: 12px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .green-text {
+    color: #27c93f;
+    font-weight: 700;
+  }
+
+  /* Stats Bento Strip */
+  .stats-bento-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1.6fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
+  }
+
+  .stat-box {
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all var(--transition-normal);
+    text-decoration: none;
+  }
+
+  .stat-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--glass-card-hover-border);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
+
+  .stat-num {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    line-height: 1;
+    margin-bottom: var(--space-1);
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.03em;
+  }
+
+  .motto-box {
+    align-items: flex-start;
+    text-align: start;
+    padding-inline-start: var(--space-6);
+  }
+
+  .motto-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--accent-cyan);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .motto-text {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  /* Tracks Section */
+  .tracks-section {
+    margin-top: var(--space-6);
+  }
+
+  .section-title-wrap {
+    margin-bottom: var(--space-5);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .section-subtitle {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+  }
+
+  .tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .track-card {
+    padding: var(--space-5);
+    transition: all var(--transition-normal);
+  }
+
+  .track-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--glass-card-hover-border);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
+
+  .track-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-3);
+    border: 1px solid var(--glass-4-border);
+  }
+
+  .cyan-glow {
+    background: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    border-color: var(--accent-cyan-dim);
+  }
+
+  .orange-glow {
+    background: rgba(255, 120, 50, 0.15);
+    color: #ff8833;
+    border-color: rgba(255, 120, 50, 0.25);
+  }
+
+  .purple-glow {
+    background: rgba(160, 90, 255, 0.15);
+    color: #b070ff;
+    border-color: rgba(160, 90, 255, 0.25);
+  }
+
+  .green-glow {
+    background: rgba(40, 200, 100, 0.15);
+    color: #27c93f;
+    border-color: rgba(40, 200, 100, 0.25);
+  }
+
+  .track-card h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .track-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 860px) {
+    .top-bento-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-bento-strip {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .motto-box {
+      grid-column: 1 / -1;
+    }
+
+    .tracks-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .main-title {
+      font-size: 2.5rem;
+    }
+  }
+</style>

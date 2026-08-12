@@ -1,0 +1,148 @@
+---
+interface Props {
+  command: string;
+  description?: string;
+  comment?: string;
+  i18nComment?: string;
+  number?: string;
+}
+
+const { command, description, comment, i18nComment, number = "01" } = Astro.props;
+const descText = comment || description;
+---
+
+<div class="glass-command">
+  <div class="cmd-header">
+    <div class="cmd-title">COMMAND / {number}</div>
+    <button class="cmd-copy glass-btn" data-command={command} data-i18n="copy">COPY</button>
+  </div>
+  
+  <div class="cmd-screen">
+    <pre><code><span class="prompt">$</span> {command}</code></pre>
+  </div>
+  
+  {descText && (
+    <div class="cmd-desc">
+      <p {...(i18nComment ? { 'data-i18n': i18nComment } : {})}>{descText}</p>
+    </div>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll('.cmd-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.getAttribute('data-command') || '';
+      if (cmd) {
+        navigator.clipboard.writeText(cmd);
+        const originalText = btn.textContent;
+        btn.textContent = 'COPIED!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.classList.remove('copied');
+        }, 1800);
+      }
+    });
+  });
+</script>
+
+<style>
+  .glass-command {
+    background: var(--cmd-bg);
+    backdrop-filter: var(--glass-3-blur);
+    -webkit-backdrop-filter: var(--glass-3-blur);
+    border: 1px solid var(--cmd-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin: var(--space-6) 0;
+    box-shadow: var(--glass-3-shadow);
+    position: relative;
+    overflow: hidden;
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+  }
+  
+  .glass-command::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+    opacity: 0.4;
+  }
+  
+  .cmd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+  }
+  
+  .cmd-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  
+  .glass-btn {
+    background: var(--glass-5-bg);
+    border: 1px solid var(--glass-5-border);
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  
+  .glass-btn:hover {
+    background: var(--glass-5-hover);
+    color: var(--accent-cyan);
+    border-color: var(--accent-cyan-dim);
+  }
+  
+  .glass-btn.copied {
+    background: var(--accent-cyan);
+    color: #ffffff;
+    border-color: var(--accent-cyan);
+  }
+  
+  .cmd-screen {
+    background: var(--cmd-screen-bg);
+    border: 1px solid var(--cmd-screen-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+    position: relative;
+    box-shadow: var(--glass-inner-shadow);
+  }
+  
+  pre {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    overflow-x: auto;
+    color: var(--cmd-text);
+  }
+  
+  .prompt {
+    color: var(--cmd-prompt);
+    font-weight: 600;
+    margin-right: var(--space-2);
+    user-select: none;
+  }
+  
+  .cmd-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    border-top: 1px dashed var(--cmd-desc-border);
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+  }
+  
+  .cmd-desc p {
+    margin: 0;
+  }
+</style>
