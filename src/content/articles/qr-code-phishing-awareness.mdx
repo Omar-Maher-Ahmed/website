@@ -29,29 +29,35 @@ tools:
 import CommandBlock from '../../components/CommandBlock.astro';
 import ToolList from '../../components/ToolList.astro';
 
-<h2 data-i18n="article1OverviewHeading">🎯 نظرة عامة على المفهوم</h2>
+<h2 id="concept-overview" data-i18n="article1OverviewHeading">🎯 نظرة عامة على المفهوم</h2>
 
 <p data-i18n="article1OverviewText">رموز الاستجابة السريعة (<strong>QR Codes</strong>) هي ببساطة تمثيل بصري للبيانات، وغالباً ما تحتوي على روابط ويب (URLs). نظراً لأن العين البشرية لا تستطيع قراءة أو فحص محتوى الـ QR Code بالعين المجردة، يستغل المهاجمون هذه النقطة في هجمات الهندسة الاجتماعية فيما يُعرف بمصطلح <strong>Qshing</strong> (QR Phishing).</p>
 
-```text
-Linux Machine (Segfault)
+<div class="diagram-card">
+  <div class="diagram-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+    <span>Attack Flow Architecture</span>
+  </div>
+  <div class="diagram-body">
+    <pre><code>{`Linux Machine (Segfault Lab)
        │
        ▼
-   Web Server (zphisher)
+   Web Server (zphisher simulation)
        │
        ▼
-   Web Page
+   Exposed Endpoint (LocalXpose tunnel)
        │
        ▼
-   QR Code
+   Encoded QR Matrix (2D Barcode)
        │
        ▼
- Victim's Phone
-```
+ Victim Phone / Camera Scanner`}</code></pre>
+  </div>
+</div>
 
 ---
 
-<h2 data-i18n="article1ToolsHeading">🛠️ الأدوات والمصادر المستخدمة</h2>
+<h2 id="tools-used" data-i18n="article1ToolsHeading">🛠️ الأدوات والمصادر المستخدمة</h2>
 
 <p data-i18n="article1ToolsSub">في هذه التجربة التعليمية في المختبر الآمن، تم استخدام الأدوات التالية:</p>
 
@@ -64,9 +70,9 @@ Linux Machine (Segfault)
 
 ---
 
-<h2 data-i18n="article1StepsHeading">⚡ خطوات التنفيذ العملية (في المختبر الآمن)</h2>
+<h2 id="practical-steps" data-i18n="article1StepsHeading">⚡ خطوات التنفيذ العملية (في المختبر الآمن)</h2>
 
-<h3 data-i18n="article1Step1Title">1. الاتصال ببيئة لينكس السحابية (Segfault)</h3>
+<h3 id="step-1" data-i18n="article1Step1Title">1. الاتصال ببيئة لينكس السحابية (Segfault)</h3>
 
 <CommandBlock 
   command="ssh root@segfault.net"
@@ -76,7 +82,7 @@ Linux Machine (Segfault)
 
 ---
 
-<h3 data-i18n="article1Step2Title">2. تحميل وتشغيل أداة محاكاة التصيد (zphisher)</h3>
+<h3 id="step-2" data-i18n="article1Step2Title">2. تحميل وتشغيل أداة محاكاة التصيد (zphisher)</h3>
 
 <CommandBlock 
   command="git clone --depth=1 https://github.com/htr-tech/zphisher.git"
@@ -92,7 +98,7 @@ Linux Machine (Segfault)
 
 ---
 
-<h3 data-i18n="article1Step3Title">3. إنشاء النفق وتحويل الرابط إلى QR Code</h3>
+<h3 id="step-3" data-i18n="article1Step3Title">3. إنشاء النفق وتحويل الرابط إلى QR Code</h3>
 
 <p data-i18n="article1Step3Point1">1. يتم اختيار خدمة فتح النفق (مثل <strong>LocalXpose</strong>) للحصول على رابط إنترنت خارجي.</p>
 <p data-i18n="article1Step3Point2">2. نقوم بأخذ الرابط الناتج ووضعه في أداة <strong>QR Code Generator</strong> لإنشاء الرمز الصوري.</p>
@@ -100,7 +106,7 @@ Linux Machine (Segfault)
 
 ---
 
-<h2 data-i18n="article1DefenseHeading">🛡️ طرق الكشف والتوعية الأمنية (Defensive Measures)</h2>
+<h2 id="defenses" data-i18n="article1DefenseHeading">🛡️ طرق الكشف والتوعية الأمنية (Defensive Measures)</h2>
 
 <p data-i18n="article1DefenseSub">للحماية من هجمات الـ QR Phishing في الحياة اليومية:</p>
 

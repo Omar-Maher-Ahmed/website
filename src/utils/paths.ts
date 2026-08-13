@@ -10,5 +10,12 @@ export function getPath(path: string = ''): string {
   if (!cleanPath) {
     return base ? `${base}/` : '/';
   }
-  return base ? `${base}/${cleanPath}` : `/${cleanPath}`;
+  
+  const hasExtension = cleanPath.includes('.') && !cleanPath.endsWith('/');
+  if (hasExtension) {
+    return base ? `${base}/${cleanPath}` : `/${cleanPath}`;
+  }
+  
+  const formattedPath = cleanPath.replace(/\/+$/, '') + '/';
+  return base ? `${base}/${formattedPath}` : `/${formattedPath}`;
 }

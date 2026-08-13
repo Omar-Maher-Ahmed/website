@@ -1,0 +1,337 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPath } from '../utils/paths';
+
+const tools = [
+  { 
+    name: "Segfault (THC)", 
+    category: "linux",
+    description: "بيئة لينكس سحابية آمنة ومؤقتة تتيح تجربة الأدوات بدون تثبيت شيء على جهازك الشخصي.", 
+    i18nDesc: "article1Tool1Desc", 
+    url: "https://www.thc.org/segfault/",
+    command: "ssh root@segfault.net"
+  },
+  { 
+    name: "LocalXpose", 
+    category: "tunneling",
+    description: "خدمة Reverse Tunneling لفتح منفذ مؤقت إلى الإنترنت الخارجي لاختبار الاتصال.", 
+    i18nDesc: "article1Tool2Desc", 
+    url: "https://localxpose.io/"
+  },
+  { 
+    name: "zphisher", 
+    category: "security",
+    description: "إطار عمل تعليمي مفتوح المصدر لمحاكاة صفحات تسجيل الدخول وفهم أساليب التصيد.", 
+    i18nDesc: "article1Tool3Desc", 
+    url: "https://github.com/htr-tech/zphisher",
+    command: "git clone --depth=1 https://github.com/htr-tech/zphisher.git"
+  },
+  { 
+    name: "QR Code Generator", 
+    category: "tools",
+    description: "أداة لتحويل الرابط المولد إلى رمز QR يمكن قراءته بواسطة كاميرات الهواتف.", 
+    i18nDesc: "article1Tool4Desc", 
+    url: "https://www.qr-code-generator.com/" 
+  }
+];
+---
+
+<BaseLayout title="Lab Tools | LimeDev" description="A curated collection of tools and services used in our technical labs.">
+  <div class="tools-container">
+    
+    <div class="tools-header">
+      <h1 class="title" data-i18n="toolsPageTitle">أدوات المختبر والأمن</h1>
+      <p class="description" data-i18n="toolsPageSub">مجموعة مختارة من الأدوات والخدمات المستخدمة في الشروحات والمختبرات التقنية.</p>
+    </div>
+    
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all" data-i18n="allTools">الكل</button>
+      <button class="filter-btn" data-filter="security" data-i18n="securityTools">الأمن</button>
+      <button class="filter-btn" data-filter="tunneling" data-i18n="tunnelingTools">الشبكات</button>
+      <button class="filter-btn" data-filter="linux" data-i18n="linuxTools">لينكس</button>
+    </div>
+
+    <div class="tools-grid">
+      {tools.map((tool) => (
+        <div class="tool-card glass-panel" data-category={tool.category}>
+          <div class="tool-card-header">
+            <div class="tool-title-wrap">
+              <div class="tool-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              </div>
+              <h3 class="tool-name">{tool.name}</h3>
+            </div>
+            <a href={tool.url} target="_blank" rel="noopener noreferrer" class="tool-link" aria-label="Visit Official Site">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+          
+          <div class="tool-card-body">
+            <p class="tool-desc" data-i18n={tool.i18nDesc}>{tool.description}</p>
+          </div>
+          
+          {tool.command && (
+            <div class="tool-card-footer">
+              <div class="command-box">
+                <span class="prompt">$</span>
+                <code class="cmd-text">{tool.command}</code>
+              </div>
+              <button class="copy-cmd-btn" data-command={tool.command} aria-label="Copy Command">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Filter logic
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const toolCards = document.querySelectorAll('.tool-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active class
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const filter = btn.getAttribute('data-filter');
+      
+      toolCards.forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          (card as HTMLElement).style.display = 'flex';
+          setTimeout(() => {
+            (card as HTMLElement).style.opacity = '1';
+            (card as HTMLElement).style.transform = 'translateY(0)';
+          }, 10);
+        } else {
+          (card as HTMLElement).style.opacity = '0';
+          (card as HTMLElement).style.transform = 'translateY(10px)';
+          setTimeout(() => {
+            (card as HTMLElement).style.display = 'none';
+          }, 300);
+        }
+      });
+    });
+  });
+
+  // Copy command logic
+  const copyBtns = document.querySelectorAll('.copy-cmd-btn');
+  copyBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.getAttribute('data-command');
+      if (cmd) {
+        navigator.clipboard.writeText(cmd);
+        const icon = btn.innerHTML;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btn.innerHTML = icon;
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+    });
+  });
+</script>
+
+<style>
+  .tools-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--space-4) 0 var(--space-12);
+  }
+  
+  .tools-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+  
+  .title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
+  }
+  
+  .description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+    flex-wrap: wrap;
+  }
+  
+  .filter-btn {
+    background: var(--glass-3-bg);
+    border: 1px solid var(--glass-3-border);
+    color: var(--text-secondary);
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-full);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  
+  .filter-btn:hover {
+    background: var(--glass-4-bg);
+    color: var(--text-primary);
+  }
+  
+  .filter-btn.active {
+    background: var(--accent-cyan-dim);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    box-shadow: var(--glass-glow);
+  }
+  
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+  
+  .tool-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    transition: transform var(--transition-normal), opacity var(--transition-normal);
+  }
+  
+  .tool-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--glass-card-hover-border);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
+  
+  .tool-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+  
+  .tool-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  
+  .tool-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .tool-name {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  .tool-link {
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+  }
+  
+  .tool-link:hover {
+    color: var(--accent-cyan);
+  }
+  
+  .tool-card-body {
+    flex-grow: 1;
+    margin-bottom: var(--space-5);
+  }
+  
+  .tool-desc {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  
+  .tool-card-footer {
+    display: flex;
+    align-items: center;
+    background: var(--cmd-bg);
+    border: 1px solid var(--cmd-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+  }
+  
+  .command-box {
+    flex-grow: 1;
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+  
+  .prompt {
+    color: var(--accent-cyan);
+    font-weight: bold;
+    user-select: none;
+  }
+  
+  .cmd-text {
+    color: var(--text-primary);
+    white-space: nowrap;
+    direction: ltr;
+  }
+  
+  .copy-cmd-btn {
+    background: var(--icon-btn-bg);
+    border: 1px solid var(--icon-btn-border);
+    color: var(--icon-btn-text);
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+  
+  .copy-cmd-btn:hover {
+    background: var(--icon-btn-hover-bg);
+    color: var(--accent-cyan);
+    border-color: var(--accent-cyan-dim);
+  }
+  
+  .copy-cmd-btn.copied {
+    background: var(--accent-cyan);
+    color: #fff;
+    border-color: var(--accent-cyan);
+  }
+  
+  @media (max-width: 768px) {
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .title {
+      font-size: 2rem;
+    }
+  }
+</style>

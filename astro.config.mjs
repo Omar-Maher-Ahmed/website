@@ -6,6 +6,7 @@ import mdx from '@astrojs/mdx';
 export default defineConfig({
   site: 'https://omar-maher-ahmed.github.io',
   base: '/website',
+  trailingSlash: 'always',
   markdown: {
     shikiConfig: {
       themes: {

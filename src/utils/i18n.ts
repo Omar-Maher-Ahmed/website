@@ -94,6 +94,22 @@ export const translations = {
     article1Def3: '<strong>Physical Inspection:</strong> Verify that stickers have not been pasted over legitimate QR codes on parking meters, menus, or bills.',
     article1Def4: '<strong>Restricting Unknown App Installations:</strong> Never approve installation prompts or grant permissions triggered from scanned QR codes.',
 
+    // Tools Page
+    toolsPageTitle: 'Security & Lab Tools',
+    toolsPageSub: 'A curated collection of tools and services used in our technical labs and episodes.',
+    allTools: 'All Tools',
+    securityTools: 'Security',
+    tunnelingTools: 'Tunneling',
+    linuxTools: 'Linux',
+    visitOfficial: 'Official Site',
+    copyCommand: 'Copy Command',
+    
+    // 404 Page
+    pageNotFound: 'Page Not Found',
+    pageNotFoundDesc: 'Sorry, we couldn\'t find the page you\'re looking for. It might have been moved or deleted.',
+    backHome: 'BACK TO HOME',
+    exploreArticles: 'EXPLORE ARTICLES',
+    
     // About Page
     aboutBadge: 'THE MISSION & PHILOSOPHY',
     aboutMainTitle: 'BUILD. BREAK. LEARN. GROW.',
@@ -217,6 +233,22 @@ export const translations = {
     article1Def3: '<strong>فحص الرموز الفيزيائية:</strong> التأكد من عدم وجود ملصق QR مزيف تم لصقه يدوياً فوق الرمز الحقيقي في المطاعم أو مواقف السيارات أو الفواتير.',
     article1Def4: '<strong>تجنب تثبيت برامج غير معروفة:</strong> عدم تحميل أي تطبيقات APK أو إعطاء صلاحيات للنظام من خلال مسح كود غير موثوق.',
 
+    // Tools Page
+    toolsPageTitle: 'أدوات المختبر والأمن',
+    toolsPageSub: 'مجموعة مختارة من الأدوات والخدمات المستخدمة في الشروحات والمختبرات التقنية.',
+    allTools: 'الكل',
+    securityTools: 'الأمن',
+    tunnelingTools: 'الشبكات',
+    linuxTools: 'لينكس',
+    visitOfficial: 'الموقع الرسمي',
+    copyCommand: 'نسخ الأمر',
+    
+    // 404 Page
+    pageNotFound: 'الصفحة غير موجودة',
+    pageNotFoundDesc: 'عذراً، لم نتمكن من العثور على الصفحة التي تبحث عنها. ربما تم نقلها أو حذفها.',
+    backHome: 'العودة للرئيسية',
+    exploreArticles: 'استكشف المقالات',
+    
     // About Page
     aboutBadge: 'الرؤية والهدف والرسالة',
     aboutMainTitle: 'BUILD. BREAK. LEARN. GROW.',
