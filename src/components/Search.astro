@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getPath } from '../utils/paths';
 
 const allArticles = await getCollection('articles');
 const searchIndex = allArticles.map(article => ({
@@ -8,7 +9,7 @@ const searchIndex = allArticles.map(article => ({
   description: article.data.description,
   category: article.data.category,
   tags: article.data.tags || [],
-  url: `/articles/${article.id}`,
+  url: getPath(`/articles/${article.id}`),
   articleNumber: article.data.articleNumber,
 }));
 ---

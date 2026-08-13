@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import { getPath } from "../utils/paths";
 
 const allArticles = await getCollection("articles");
 const sortedArticles = allArticles.sort(
@@ -32,7 +33,7 @@ const latestArticle = sortedArticles[0];
       </p>
 
       <div class="hero-actions">
-        <a href="/articles" class="glass-btn primary" data-i18n="openArchive">
+        <a href={getPath('/articles')} class="glass-btn primary" data-i18n="openArchive">
           استكشف المقالات
         </a>
         <a
@@ -56,7 +57,7 @@ const latestArticle = sortedArticles[0];
           >
           <span data-i18n="watchYoutube">قناة يوتيوب</span>
         </a>
-        <a href="/about" class="glass-btn ghost" data-i18n="aboutChannel">
+        <a href={getPath('/about')} class="glass-btn ghost" data-i18n="aboutChannel">
           فلسفة القناة
         </a>
       </div>
@@ -80,7 +81,7 @@ const latestArticle = sortedArticles[0];
               </span>
             </div>
 
-            <a href={`/articles/${latestArticle.id}`} class="latest-link">
+            <a href={getPath(`/articles/${latestArticle.id}`)} class="latest-link">
               <h2 class="latest-title">{latestArticle.data.title}</h2>
               <p class="latest-desc">{latestArticle.data.description}</p>
 
@@ -112,14 +113,12 @@ const latestArticle = sortedArticles[0];
         <div class="terminal-body">
           <p class="cmd-line"><span class="prompt">$</span> whoami</p>
           <p class="cmd-output cyan">LimeDev_Builder</p>
-
           <p class="cmd-line">
             <span class="prompt">$</span> cat /etc/limedev-mission.txt
           </p>
           <p class="cmd-output green">
             "Learn by building, breaking, and mastering under the hood."
           </p>
-
           <p class="cmd-line">
             <span class="prompt">$</span> systemctl status passion.service
           </p>
@@ -133,14 +132,14 @@ const latestArticle = sortedArticles[0];
 
     <!-- Quick Stats Bento Strip -->
     <div class="stats-bento-strip">
-      <a href="/articles" class="glass-floating stat-box">
+      <a href={getPath('/articles')} class="glass-floating stat-box">
         <span class="stat-num"
           >{allArticles.length.toString().padStart(2, "0")}</span
         >
         <span class="stat-label" data-i18n="articlesCount">المقالات</span>
       </a>
 
-      <a href="/articles" class="glass-floating stat-box">
+      <a href={getPath('/articles')} class="glass-floating stat-box">
         <span class="stat-num">03</span>
         <span class="stat-label" data-i18n="toolsCount">أدوات المختبر</span>
       </a>

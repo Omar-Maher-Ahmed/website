@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { getPath } from '../../utils/paths';
 
 const allArticles = await getCollection('articles');
 const sortedArticles = allArticles.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
@@ -18,7 +19,7 @@ const sortedArticles = allArticles.sort((a, b) => b.data.publishedAt.valueOf() -
         const articleNum = article.data.articleNumber?.toString().padStart(3, '0') || (sortedArticles.length - index).toString().padStart(3, '0');
         
         return (
-          <a href={`/articles/${article.id}`} class="glass-floating archive-card">
+          <a href={getPath(`/articles/${article.id}`)} class="glass-floating archive-card">
             <div class="card-header">
               <span class="card-cat">{article.data.category}</span>
               <span class="card-num">#{articleNum}</span>
