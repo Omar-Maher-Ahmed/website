@@ -112,7 +112,18 @@ a {
   transition: all var(--transition-normal);
 }
 
-/* Shiki Dual-Theme Code Blocks */
+/* Shiki Dual-Theme Code Blocks & Strict LTR Isolation */
+pre, code, kbd, samp, .astro-code, .cmd-screen, .glass-command pre, .diagram-container {
+  direction: ltr !important;
+  text-align: left !important;
+  font-family: var(--font-mono);
+  unicode-bidi: isolate;
+}
+
+code {
+  unicode-bidi: isolate;
+}
+
 .astro-code {
   background-color: var(--cmd-screen-bg) !important;
   border: 1px solid var(--cmd-screen-border);
@@ -121,6 +132,9 @@ a {
   font-family: var(--font-mono);
   box-shadow: var(--glass-inner-shadow);
   overflow-x: auto;
+  margin: var(--space-4) 0;
+  direction: ltr !important;
+  text-align: left !important;
 }
 
 .astro-code span {
@@ -129,6 +143,57 @@ a {
 
 .light-theme .astro-code span {
   color: var(--shiki-light);
+}
+
+/* ASCII Architecture / Flowchart Container */
+.diagram-card {
+  background: var(--cmd-bg);
+  border: 1px solid var(--cmd-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin: var(--space-6) 0;
+  box-shadow: var(--glass-inner-shadow), var(--glass-3-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.diagram-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  opacity: 0.4;
+}
+
+.diagram-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.diagram-body {
+  background: var(--cmd-screen-bg);
+  border: 1px solid var(--cmd-screen-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  overflow-x: auto;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.diagram-body pre {
+  margin: 0;
+  color: var(--accent-cyan);
+  font-size: 0.875rem;
+  line-height: 1.45;
 }
 
 /* Custom Glass Scrollbar */
@@ -149,4 +214,8 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-cyan-dim);
+}
+
+html {
+  scroll-behavior: smooth;
 }
