@@ -20,6 +20,7 @@ const formattedDate = new Date(article.data.publishedAt).toLocaleDateString('en-
 }).toUpperCase();
 
 const articleNum = article.data.articleNumber?.toString().padStart(3, '0') || '001';
+const i18nPrefix = `article${article.data.articleNumber || 1}`;
 ---
 
 <BaseLayout title={`${article.data.title} | LimeDev`} description={article.data.description}>
@@ -35,10 +36,10 @@ const articleNum = article.data.articleNumber?.toString().padStart(3, '0') || '0
         </div>
         
         <div class="title-block">
-          <h1 class="title" data-i18n="article1Title">{article.data.titleAr || article.data.title}</h1>
+          <h1 class="title" data-i18n={`${i18nPrefix}Title`}>{article.data.titleAr || article.data.title}</h1>
         </div>
         
-        <p class="description" data-i18n="article1Desc">{article.data.descriptionAr || article.data.description}</p>
+        <p class="description" data-i18n={`${i18nPrefix}Desc`}>{article.data.descriptionAr || article.data.description}</p>
         
         <div class="tags-list inline">
           {article.data.tags.map((tag: string) => (
