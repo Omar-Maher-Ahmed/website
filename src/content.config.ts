@@ -18,8 +18,11 @@ const articles = defineCollection({
     featured: z.boolean().default(false),
     tools: z.array(z.object({
       name: z.string(),
+      category: z.string().optional().default("tools"),
       description: z.string(),
       i18nDesc: z.string().optional(),
+      url: z.string().url().optional(),
+      command: z.string().optional(),
     })).default([]),
   }),
 });

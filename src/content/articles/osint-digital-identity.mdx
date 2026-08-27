@@ -14,18 +14,37 @@ publishedAt: "2026-08-21"
 articleNumber: 2
 youtubeUrl: ""
 tools:
-  - name: "Sherlock"
-    description: "Username enumeration across public platforms"
-    i18nDesc: "article2Tool1Desc"
   - name: "Maigret"
+    category: "security"
     description: "Username investigation tool"
     i18nDesc: "article2Tool2Desc"
+    url: "https://github.com/soxoj/maigret"
+    command: "pipx install maigret"
   - name: "ExifTool"
+    category: "tools"
     description: "Metadata & EXIF analysis"
     i18nDesc: "article2Tool3Desc"
-  - name: "PhoneInfoga"
-    description: "Phone-number OSINT tool"
-    i18nDesc: "article2Tool4Desc"
+    url: "https://exiftool.org/"
+  - name: "Have I Been Pwned"
+    category: "security"
+    description: "Data breach search tool"
+    i18nDesc: "article2Tool5Desc"
+    url: "https://haveibeenpwned.com/"
+  - name: "DeHashed"
+    category: "security"
+    description: "Leaked database search engine"
+    i18nDesc: "article2Tool6Desc"
+    url: "https://app.dehashed.com/search"
+  - name: "WhatsMyName"
+    category: "security"
+    description: "Username enumeration tool"
+    i18nDesc: "article2Tool7Desc"
+    url: "https://www.whatismyname.org/"
+  - name: "OSINT Framework"
+    category: "tools"
+    description: "Directory of OSINT resources"
+    i18nDesc: "article2Tool8Desc"
+    url: "https://osintframework.com/"
 ---
 import ToolList from '../../components/ToolList.astro';
 
@@ -113,11 +132,20 @@ import ToolList from '../../components/ToolList.astro';
 <h2 id="tools-sources" data-i18n="article2ToolsHeading">🛠️ Tools & Sources</h2>
 
 <ToolList tools={[
-  { name: "Sherlock", description: "An open-source tool for searching usernames across a large number of public websites and platforms.", i18nDesc: "article2Tool1Desc", url: "https://github.com/sherlock-project/sherlock" },
   { name: "Maigret", description: "A username investigation tool that searches for potential accounts associated with a username across different online services.", i18nDesc: "article2Tool2Desc", url: "https://github.com/soxoj/maigret" },
   { name: "ExifTool", description: "A powerful tool for reading and analyzing file metadata, including EXIF metadata contained in images.", i18nDesc: "article2Tool3Desc", url: "https://exiftool.org/" },
-  { name: "PhoneInfoga", description: "A tool designed for phone-number OSINT and reconnaissance using publicly available information.", i18nDesc: "article2Tool4Desc", url: "https://github.com/sundowndev/phoneinfoga" }
+  { name: "Have I Been Pwned", description: "A service that allows internet users to check if their personal data has been compromised by data breaches.", i18nDesc: "article2Tool5Desc", url: "https://haveibeenpwned.com/" },
+  { name: "DeHashed", description: "A search engine for leaked database credentials, enabling users to find compromised information such as passwords and emails.", i18nDesc: "article2Tool6Desc", url: "https://app.dehashed.com/search" },
+  { name: "WhatsMyName", description: "A web-based tool for username enumeration across hundreds of different websites and platforms.", i18nDesc: "article2Tool7Desc", url: "https://www.whatismyname.org/" },
+  { name: "OSINT Framework", description: "A comprehensive framework and directory of various OSINT tools and resources categorized by task.", i18nDesc: "article2Tool8Desc", url: "https://osintframework.com/" }
 ]} />
+
+<blockquote>
+<p data-i18n="article2MaigretException"><strong>Maigret Note:</strong> If you encounter an error while installing Maigret on Linux (due to package conflicts), you can use <code>pipx</code> to install it in an isolated environment. Run the following commands:</p>
+<pre><code>sudo apt update && sudo apt install pipx -y
+pipx ensurepath
+pipx install maigret</code></pre>
+</blockquote>
 
 <h3 id="search-operators" data-i18n="article2SearchOpsTitle">Search Operators</h3>
 <p data-i18n="article2SearchOpsText">Advanced search operators can be used to narrow search engine results and locate specific types of publicly indexed information.</p>

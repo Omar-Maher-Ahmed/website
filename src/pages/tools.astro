@@ -1,39 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getPath } from '../utils/paths';
+import { getCollection } from 'astro:content';
 
-const tools = [
-  { 
-    name: "Segfault (THC)", 
-    category: "linux",
-    description: "بيئة لينكس سحابية آمنة ومؤقتة تتيح تجربة الأدوات بدون تثبيت شيء على جهازك الشخصي.", 
-    i18nDesc: "article1Tool1Desc", 
-    url: "https://www.thc.org/segfault/",
-    command: "ssh root@segfault.net"
-  },
-  { 
-    name: "LocalXpose", 
-    category: "tunneling",
-    description: "خدمة Reverse Tunneling لفتح منفذ مؤقت إلى الإنترنت الخارجي لاختبار الاتصال.", 
-    i18nDesc: "article1Tool2Desc", 
-    url: "https://localxpose.io/"
-  },
-  { 
-    name: "zphisher", 
-    category: "security",
-    description: "إطار عمل تعليمي مفتوح المصدر لمحاكاة صفحات تسجيل الدخول وفهم أساليب التصيد.", 
-    i18nDesc: "article1Tool3Desc", 
-    url: "https://github.com/htr-tech/zphisher",
-    command: "git clone --depth=1 https://github.com/htr-tech/zphisher.git"
-  },
-  { 
-    name: "QR Code Generator", 
-    category: "tools",
-    description: "أداة لتحويل الرابط المولد إلى رمز QR يمكن قراءته بواسطة كاميرات الهواتف.", 
-    i18nDesc: "article1Tool4Desc", 
-    url: "https://www.qr-code-generator.com/" 
+const articles = await getCollection('articles');
+const allToolsMap = new Map();
+
+articles.forEach(article => {
+  if (article.data.tools) {
+    article.data.tools.forEach(tool => {
+      if (!allToolsMap.has(tool.name)) {
+        allToolsMap.set(tool.name, tool);
+      }
+    });
   }
-];
+});
+
+const tools = Array.from(allToolsMap.values());
 ---
 
 <BaseLayout title="Lab Tools | LimeDev" description="A curated collection of tools and services used in our technical labs.">
