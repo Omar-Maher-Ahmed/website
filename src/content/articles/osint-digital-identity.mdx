@@ -14,6 +14,16 @@ publishedAt: "2026-08-21"
 articleNumber: 2
 youtubeUrl: ""
 tools:
+  - name: "OSINT Framework"
+    category: "tools"
+    description: "Directory of OSINT resources"
+    i18nDesc: "article2Tool8Desc"
+    url: "https://osintframework.com/"
+  - name: "WhatsMyName"
+    category: "security"
+    description: "Username enumeration tool"
+    i18nDesc: "article2Tool7Desc"
+    url: "https://www.whatismyname.org/"
   - name: "Maigret"
     category: "security"
     description: "Username investigation tool"
@@ -35,16 +45,6 @@ tools:
     description: "Leaked database search engine"
     i18nDesc: "article2Tool6Desc"
     url: "https://app.dehashed.com/search"
-  - name: "WhatsMyName"
-    category: "security"
-    description: "Username enumeration tool"
-    i18nDesc: "article2Tool7Desc"
-    url: "https://www.whatismyname.org/"
-  - name: "OSINT Framework"
-    category: "tools"
-    description: "Directory of OSINT resources"
-    i18nDesc: "article2Tool8Desc"
-    url: "https://osintframework.com/"
 ---
 import ToolList from '../../components/ToolList.astro';
 
@@ -132,12 +132,12 @@ import ToolList from '../../components/ToolList.astro';
 <h2 id="tools-sources" data-i18n="article2ToolsHeading">🛠️ Tools & Sources</h2>
 
 <ToolList tools={[
+  { name: "OSINT Framework", description: "A comprehensive framework and directory of various OSINT tools and resources categorized by task.", i18nDesc: "article2Tool8Desc", url: "https://osintframework.com/" },
+  { name: "WhatsMyName", description: "A web-based tool for username enumeration across hundreds of different websites and platforms.", i18nDesc: "article2Tool7Desc", url: "https://www.whatismyname.org/" },
   { name: "Maigret", description: "A username investigation tool that searches for potential accounts associated with a username across different online services.", i18nDesc: "article2Tool2Desc", url: "https://github.com/soxoj/maigret" },
   { name: "ExifTool", description: "A powerful tool for reading and analyzing file metadata, including EXIF metadata contained in images.", i18nDesc: "article2Tool3Desc", url: "https://exiftool.org/" },
   { name: "Have I Been Pwned", description: "A service that allows internet users to check if their personal data has been compromised by data breaches.", i18nDesc: "article2Tool5Desc", url: "https://haveibeenpwned.com/" },
-  { name: "DeHashed", description: "A search engine for leaked database credentials, enabling users to find compromised information such as passwords and emails.", i18nDesc: "article2Tool6Desc", url: "https://app.dehashed.com/search" },
-  { name: "WhatsMyName", description: "A web-based tool for username enumeration across hundreds of different websites and platforms.", i18nDesc: "article2Tool7Desc", url: "https://www.whatismyname.org/" },
-  { name: "OSINT Framework", description: "A comprehensive framework and directory of various OSINT tools and resources categorized by task.", i18nDesc: "article2Tool8Desc", url: "https://osintframework.com/" }
+  { name: "DeHashed", description: "A search engine for leaked database credentials, enabling users to find compromised information such as passwords and emails.", i18nDesc: "article2Tool6Desc", url: "https://app.dehashed.com/search" }
 ]} />
 
 <blockquote>
