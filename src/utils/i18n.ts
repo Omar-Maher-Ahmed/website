@@ -251,9 +251,9 @@ export const translations = {
     article3TargetAudienceHeading: 'Who Is This For?',
     article3AudienceIntro: 'This material is designed for anyone seeking to master the fundamentals of AI Security, particularly:',
     article3AudienceOutro: 'No advanced Machine Learning experience is required; the focus is strictly on Security Concepts and Application Architecture.',
-    article3Tool1Desc: 'Generative AI Red Teaming & Vulnerability Scanner for LLMs.',
-    article3Tool2Desc: 'Microsoft AI Red Teaming framework for automated risk identification.',
-    article3Tool3Desc: 'IBM framework for machine learning security & evasion attack simulations.',
+    article3Tool1Desc: 'DeepSeek Persona Adoption prompt override example demonstrating role framing.',
+    article3Tool2Desc: 'ChatGPT Hypothetical Developer Scenario prompt injection example.',
+    article3Tool3Desc: 'Gemini Rule Manipulation & Phrase Restriction prompt example.',
 
     // Tools Page
     toolsPageTitle: 'Security & Lab Tools',
@@ -555,9 +555,9 @@ export const translations = {
     article3TargetAudienceHeading: 'Who Is This For?',
     article3AudienceIntro: 'هذه المادة مناسبة لأي شخص يريد فهم أساسيات <strong>AI Security</strong>، خصوصًا:',
     article3AudienceOutro: 'ولا يشترط أن تكون لديك خبرة متقدمة في Machine Learning؛ التركيز الأساسي هنا على <strong>Security Concepts وApplication Architecture</strong>.',
-    article3Tool1Desc: 'أداة مفتوحة المصدر لاختبار وتقييم ثغرات النماذج الذكية واكتشاف محاولات الـ Jailbreak والـ Injection.',
-    article3Tool2Desc: 'إطار عمل من شركة Microsoft مخصص لاختبارات Red Teaming للذكاء الاصطناعي بشكل آلي.',
-    article3Tool3Desc: 'إطار عمل مخصص لاختبار وتقييم متانة نماذج الذكاء الاصطناعي ضد هجمات Evasion و Poisoning.',
+    article3Tool1Desc: 'نموذج توضيحي لتجاوز الـ Persona وتغيير الدور في DeepSeek.',
+    article3Tool2Desc: 'نموذج توضيحي لصياغة سيناريو البيئة المعزولة في ChatGPT.',
+    article3Tool3Desc: 'نموذج توضيحي لصياغة التلاعب بالقواعد وتقييد المصطلحات المحظورة في Gemini.',
 
     // Tools Page
     toolsPageTitle: 'أدوات المختبر والأمن',
