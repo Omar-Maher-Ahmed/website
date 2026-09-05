@@ -1,0 +1,184 @@
+---
+title: "AI Jailbreak & Prompt Injection: Core Introduction & Learning Objectives"
+titleAr: "الـAI رفض... فخلّيته يغيّر رأيه! 😳 | AI Jailbreak"
+description: "An essential security breakdown of LLM application security, Jailbreak concepts, Context & Prompt Injection risks, and core defensive principles."
+descriptionAr: "شرح وأهداف تعلم أساسيات أمن تطبيقات الذكاء الاصطناعي (LLM Security)، التمييز بين الـ Jailbreak والـ Prompt Injection، وتأمين الحدود الأمنية للأنظمة والـ Agents."
+category: "Security"
+tags:
+  - Security
+  - AI
+  - Awareness
+  - Networking
+  - Linux
+publishedAt: "2026-09-04"
+articleNumber: 3
+youtubeUrl: "https://youtu.be/STx6vfQIOHY"
+tools:
+  - name: "Garak (LLM Vulnerability Scanner)"
+    category: "security"
+    description: "Generative AI Red Teaming & Vulnerability Scanner."
+    i18nDesc: "article3Tool1Desc"
+    url: "https://github.com/leondz/garak"
+    command: "pip install garak"
+  - name: "PyRIT (Python Risk Identification Tool)"
+    category: "security"
+    description: "Microsoft AI Red Teaming framework for automated risk identification."
+    i18nDesc: "article3Tool2Desc"
+    url: "https://github.com/Azure/PyRIT"
+  - name: "Adversarial Robustness Toolbox (ART)"
+    category: "security"
+    description: "IBM framework for machine learning security & evasion attack simulations."
+    i18nDesc: "article3Tool3Desc"
+    url: "https://github.com/Trusted-AI/adversarial-robustness-toolbox"
+---
+import CommandBlock from '../../components/CommandBlock.astro';
+import ToolList from '../../components/ToolList.astro';
+
+<h2 id="introduction" data-i18n="article3IntroHeading"># Introduction</h2>
+
+<p data-i18n="article3IntroP1">مع انتشار <strong>Large Language Models (LLMs)</strong> ودخولها في تطبيقات حقيقية، لم يعد الـAI مجرد Chatbot يرد على الأسئلة.</p>
+
+<p data-i18n="article3IntroP2">أصبح النموذج جزءًا من أنظمة تستطيع:</p>
+<ul>
+  <li data-i18n="article3IntroItem1">قراءة Emails وDocuments.</li>
+  <li data-i18n="article3IntroItem2">البحث واسترجاع المعلومات باستخدام RAG.</li>
+  <li data-i18n="article3IntroItem3">التعامل مع Web Pages.</li>
+  <li data-i18n="article3IntroItem4">استخدام External Tools.</li>
+  <li data-i18n="article3IntroItem5">تنفيذ Actions نيابةً عن المستخدم.</li>
+</ul>
+
+<p data-i18n="article3IntroP3">وهذا التطور خلق فئة جديدة من التحديات الأمنية. من أشهر هذه التحديات: <strong>AI Jailbreaks</strong> و <strong>Prompt Injection</strong>.</p>
+
+<p data-i18n="article3IntroP4">الفكرة الأساسية ليست أن النموذج يتم "اختراقه" بالمعنى التقليدي، وإنما أن المهاجم قد يحاول التأثير على <strong>Prompt أو Context أو Instructions</strong> التي يعتمد عليها النموذج في اتخاذ قراره.</p>
+
+<p data-i18n="article3IntroP5">قد يبدأ الأمر بمحاولة بسيطة لتغيير Persona النموذج، أو تغيير Framing السؤال، أو تقسيم الـInput إلى أجزاء. لكن عندما يصبح الـAI جزءًا من Application يمتلك Tools وصلاحيات، يمكن أن تصبح المشكلة أكثر خطورة؛ لأن الخطأ في تفسير Context قد يؤدي إلى <strong>Unexpected Actions</strong> وليس مجرد إجابة غير صحيحة.</p>
+
+<p data-i18n="article3IntroP6">في هذه الـDocumentation سنفكك هذه المفاهيم خطوة بخطوة، ونوضح كيف تحدث، ولماذا تمثل تحديًا أمنيًا، والأهم:</p>
+
+<blockquote data-i18n="article3IntroQuote">
+<strong>كيف نبني AI Applications أكثر مقاومة لهذه الهجمات؟</strong>
+</blockquote>
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+    <span>Instruction Hierarchy Structure</span>
+  </div>
+  <div class="diagram-body">
+    <pre><code>{`System Instructions (Highest Priority)
+        │
+        ▼
+Developer Instructions
+        │
+        ▼
+User Input
+        │
+        ▼
+Untrusted Data (Emails / PDFs / Web Content)`}</code></pre>
+  </div>
+</div>
+
+---
+
+<h2 id="learning-objectives" data-i18n="article3ObjHeading"># Learning Objectives</h2>
+
+<p data-i18n="article3ObjSub">بعد الانتهاء من هذه الـDocumentation، يجب أن تكون قادرًا على:</p>
+
+<h3 id="obj-01" data-i18n="article3Obj1Title">01 — Understand AI Jailbreak</h3>
+<p data-i18n="article3Obj1Text">فهم معنى <strong>AI Jailbreak</strong> والتمييز بينه وبين الاختراق التقليدي للـServer أو الـDatabase أو الـModel.</p>
+
+---
+
+<h3 id="obj-02" data-i18n="article3Obj2Title">02 — Identify Jailbreak Techniques</h3>
+<p data-i18n="article3Obj2Intro">التعرف على أشهر الأساليب المستخدمة لمحاولة التأثير على سلوك النموذج، ومنها:</p>
+<ul>
+  <li>Persona Adoption</li>
+  <li>Hypothetical Scenarios</li>
+  <li>Payload Splitting</li>
+  <li>Rule Manipulation</li>
+  <li>Context Injection</li>
+</ul>
+
+---
+
+<h3 id="obj-03" data-i18n="article3Obj3Title">03 — Understand Prompt & Context Manipulation</h3>
+<p data-i18n="article3Obj3Text">فهم كيف يمكن لتغيير الـ<strong>Prompt</strong> أو الـ<strong>Framing</strong> أو الـ<strong>Context</strong> أن يؤثر على طريقة تفسير النموذج للطلب.</p>
+
+---
+
+<h3 id="obj-04" data-i18n="article3Obj4Title">04 — Understand Instruction Hierarchy</h3>
+<p data-i18n="article3Obj4Text">فهم الفرق في تدرج الأولوية بين System Instructions، Developer Instructions، User Input، و Untrusted Data ولماذا لا يستطيع المستخدم تغيير مستوى أولوية التعليمات بمجرد كتابة جملة داخل الـPrompt.</p>
+
+---
+
+<h3 id="obj-05" data-i18n="article3Obj5Title">05 — Recognize Prompt Injection</h3>
+<p data-i18n="article3Obj5Intro">القدرة على اكتشاف الحالات التي تحتوي فيها مصادر غير موثوقة مثل:</p>
+<ul>
+  <li>Emails</li>
+  <li>PDFs</li>
+  <li>Web Pages</li>
+  <li>Documents</li>
+  <li>User-generated Content</li>
+</ul>
+<p data-i18n="article3Obj5Outro">على تعليمات تحاول التأثير على سلوك النموذج.</p>
+
+---
+
+<h3 id="obj-06" data-i18n="article3Obj6Title">06 — Understand Trust Boundaries</h3>
+<p data-i18n="article3Obj6Text">فهم أهمية الفصل بين <strong>Trusted Instructions</strong> و <strong>Untrusted Data</strong> خصوصًا عند تصميم RAG Systems وAI Agents.</p>
+
+---
+
+<h3 id="obj-07" data-i18n="article3Obj7Title">07 — Analyze AI Agent Risks</h3>
+<p data-i18n="article3Obj7Text">فهم لماذا تصبح Prompt Injection أكثر خطورة عندما يمتلك الـAI صلاحية استخدام Tools أو تنفيذ Actions.</p>
+
+---
+
+<h3 id="obj-08" data-i18n="article3Obj8Title">08 — Apply Defensive Principles</h3>
+<p data-i18n="article3Obj8Intro">التعرف على المبادئ الأساسية للدفاع، مثل:</p>
+<ul>
+  <li>Instruction Hierarchy</li>
+  <li>Treating External Content as Untrusted</li>
+  <li>Least Privilege</li>
+  <li>Human Approval</li>
+  <li>Red Teaming</li>
+</ul>
+
+---
+
+<h3 id="obj-09" data-i18n="article3Obj9Title">09 — Build a Security Mindset</h3>
+<p data-i18n="article3Obj9Intro">الانتقال من سؤال <em>"هل الـModel آمن؟"</em> إلى أسئلة أكثر أهمية:</p>
+<ul>
+  <li data-i18n="article3Obj9Q1">"ما البيانات التي يستطيع النموذج رؤيتها؟"</li>
+  <li data-i18n="article3Obj9Q2">"من يستطيع التأثير على الـContext؟"</li>
+  <li data-i18n="article3Obj9Q3">"ما الصلاحيات التي يمتلكها الـAI؟"</li>
+  <li data-i18n="article3Obj9Q4">"ماذا يحدث إذا اتخذ النموذج القرار الخطأ؟"</li>
+</ul>
+
+---
+
+<h2 id="who-is-this-for" data-i18n="article3TargetAudienceHeading">Who Is This For?</h2>
+
+<p data-i18n="article3AudienceIntro">هذه المادة مناسبة لأي شخص يريد فهم أساسيات <strong>AI Security</strong>، خصوصًا:</p>
+
+<ul>
+  <li>Cybersecurity Students</li>
+  <li>Security Engineers</li>
+  <li>Developers</li>
+  <li>AI/ML Engineers</li>
+  <li>Red Teamers</li>
+  <li>AI Application Developers</li>
+  <li>Security Researchers</li>
+</ul>
+
+<p data-i18n="article3AudienceOutro">ولا يشترط أن تكون لديك خبرة متقدمة في Machine Learning؛ التركيز الأساسي هنا على <strong>Security Concepts وApplication Architecture</strong>.</p>
+
+---
+
+<h2 id="tools-used" data-i18n="article3ToolsHeading">🛠️ الأدوات والمصادر المستخدمة</h2>
+
+<ToolList tools={[
+  { name: "Garak (LLM Vulnerability Scanner)", description: "أداة مفتوحة المصدر لاختبار وتقييم ثغرات النماذج الذكية واكتشاف محاولات الـ Jailbreak والـ Injection.", i18nDesc: "article3Tool1Desc", url: "https://github.com/leondz/garak" },
+  { name: "PyRIT (Python Risk Identification Tool)", description: "إطار عمل من شركة Microsoft مخصص لاختبارات Red Teaming للذكاء الاصطناعي بشكل آلي.", i18nDesc: "article3Tool2Desc", url: "https://github.com/Azure/PyRIT" },
+  { name: "Adversarial Robustness Toolbox (ART)", description: "إطار عمل مخصص لاختبار وتقييم متانة نماذج الذكاء الاصطناعي ضد هجمات Evasion و Poisoning.", i18nDesc: "article3Tool3Desc", url: "https://github.com/Trusted-AI/adversarial-robustness-toolbox" }
+]} />
