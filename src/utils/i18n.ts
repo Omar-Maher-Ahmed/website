@@ -512,7 +512,7 @@ export const translations = {
     article2ConclusionP3: 'وفي المقابل، فهم هذه المنهجية لا يساعد فقط في التحقيقات الأمنية، بل يساعدك أيضًا على معرفة <strong>ما الذي تكشفه عن نفسك دون أن تدرك ذلك</strong> وكيف تقلل من بصمتك الرقمية.',
 
     // Article 3 Specific Keys (AI Jailbreak & Prompt Injection - Introduction & Learning Objectives) — Arabic
-    article3Title: 'الـAI رفض... فخلّيته يغيّر رأيه! 😳 | AI Jailbreak',
+    article3Title: 'الـAI رفض الطلب... ليه؟ وإزاي الـPrompt بيغيّر النتيجة؟',
     article3Desc: 'شرح وأهداف تعلم أساسيات أمن تطبيقات الذكاء الاصطناعي (LLM Security)، التمييز بين الـ Jailbreak والـ Prompt Injection، وتأمين الحدود الأمنية للأنظمة والـ Agents.',
     article3IntroHeading: '# Introduction',
     article3IntroP1: 'مع انتشار <strong>Large Language Models (LLMs)</strong> ودخولها في تطبيقات حقيقية، لم يعد الـAI مجرد Chatbot يرد على الأسئلة.',
