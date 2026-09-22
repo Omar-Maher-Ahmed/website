@@ -1,0 +1,206 @@
+---
+title: "Hosting an Onion Service on Tor using Nginx"
+titleAr: "استضافة موقع على شبكة Tor باستخدام Nginx (Onion Service)"
+description: "A step-by-step educational guide on configuring a Linux machine with Nginx and Tor to host an Onion hidden service securely."
+descriptionAr: "دليل تعليمي خطوة بخطوة لإعداد جهاز لينكس باستخدام Nginx و Tor لاستضافة موقع ويب مخفي على شبكة أونيون."
+category: "Linux"
+tags:
+  - Linux
+  - Security
+  - Networking
+  - Tor
+  - Nginx
+publishedAt: "2026-09-11"
+articleNumber: 4
+tools:
+  - name: "Nginx"
+    category: "linux"
+    description: "High Performance Web Server"
+    i18nDesc: "article4Tool1Desc"
+    url: "https://nginx.org/"
+    command: "sudo apt install nginx"
+  - name: "Tor"
+    category: "tunneling"
+    description: "Anonymity Network and Hidden Services"
+    i18nDesc: "article4Tool2Desc"
+    url: "https://www.torproject.org/"
+    command: "sudo apt install tor"
+---
+
+import CommandBlock from "../../components/CommandBlock.astro";
+import ToolList from "../../components/ToolList.astro";
+
+<h2 id="concept-overview" data-i18n="article4OverviewHeading">
+  🎯 نظرة عامة على المفهوم
+</h2>
+
+<p data-i18n="article4OverviewP1">
+  تخيل أن لديك جهاز لينكس بسيط، ويمكنك تحويله إلى خادم ويب متاح من خلال شبكة تور
+  (Tor) بشكل مخفي (Onion Service). هذه التجربة تعليمية بالكامل لفهم كيفية عمل
+  الشبكات والخوادم المخفية، حيث نقوم بإعداد أساس الخادم باستخدام Nginx ثم نربطه
+  بشبكة Tor ليصبح متاحاً عبر عنوان <code>.onion</code> خاص بك.
+</p>
+
+---
+
+<h2 id="tools-used" data-i18n="article4ToolsHeading">
+  🛠️ الأدوات والمصادر المستخدمة
+</h2>
+
+<ToolList tools={frontmatter.tools} />
+
+---
+
+<h2 id="practical-steps" data-i18n="article4StepsHeading">
+  ⚡ خطوات التنفيذ العملية
+</h2>
+
+<h3 id="step-1" data-i18n="article4Step1Title">
+  1. تحديث النظام وتثبيت Nginx و Tor
+</h3>
+
+<CommandBlock
+  command="sudo apt update"
+  comment="تحديث الحزم وتثبيت خادم الويب Nginx وخدمة Tor"
+  i18nComment="article4Step1Comment"
+/>
+<CommandBlock command="sudo apt install -y nginx tor" />
+
+<h3 id="step-2" data-i18n="article4Step2Title">
+  2. تشغيل الخدمات والتأكد من حالتها
+</h3>
+
+<CommandBlock
+  command="sudo systemctl enable --now nginx"
+  comment="تفعيل وتشغيل Nginx و Tor لتعمل تلقائياً مع النظام"
+  i18nComment="article4Step2Comment"
+/>
+<CommandBlock command="sudo systemctl enable tor" />
+
+<h3 id="step-3" data-i18n="article4Step3Title">
+  3. معالجة تعارض المنفذ 80 (إن وجد)
+</h3>
+
+<p data-i18n="article4Step3P1">
+  إذا كان لديك خادم Apache يعمل على نفس المنفذ (Port 80)، ستحتاج لإيقافه لمنع
+  التعارض:
+</p>
+
+<CommandBlock
+  command="sudo ss -ltnp | grep ':80'"
+  comment="فحص المنفذ 80 وإيقاف Apache للسماح لـ Nginx بالعمل"
+  i18nComment="article4Step3Comment"
+/>
+<CommandBlock command="sudo systemctl stop apache2" />
+<CommandBlock command="sudo systemctl disable apache2" />
+
+<CommandBlock
+  command="sudo nginx -t"
+  comment="فحص إعدادات Nginx وإعادة تشغيله"
+  i18nComment="article4Step3Comment2"
+/>
+<CommandBlock command="sudo systemctl restart nginx" />
+
+<h3 id="step-4" data-i18n="article4Step4Title">
+  4. إعداد خدمة Onion Service في Tor
+</h3>
+
+<p data-i18n="article4Step4P1">
+  الآن، سنقوم بإنشاء مجلد خاص لخدمة الويب المخفية وتعيين الصلاحيات المناسبة
+  لمستخدم تور:
+</p>
+
+<CommandBlock
+  command="sudo mkdir -p /var/lib/tor/myweb"
+  comment="إنشاء المجلد وتعيين الملكية والصلاحيات الصارمة لخدمة Tor"
+  i18nComment="article4Step4Comment"
+/>
+<CommandBlock command="sudo chown debian-tor:debian-tor /var/lib/tor/myweb" />
+<CommandBlock command="sudo chmod 700 /var/lib/tor/myweb" />
+
+<h3 id="step-5" data-i18n="article4Step5Title">
+  5. تعديل إعدادات Tor (torrc)
+</h3>
+
+<p data-i18n="article4Step5P1">
+  نقوم بفتح ملف الإعدادات وإضافة توجيهات الخدمة المخفية:
+</p>
+
+<CommandBlock
+  command="sudo nano /etc/tor/torrc"
+  comment="افتح ملف الإعدادات وأضف الأسطر التالية لربط الخدمة بـ Nginx"
+  i18nComment="article4Step5Comment"
+/>
+
+<pre>
+  <code>{`HiddenServiceDir /var/lib/tor/myweb/
+HiddenServicePort 80 127.0.0.1:80`}</code>
+</pre>
+
+<h3 id="step-6" data-i18n="article4Step6Title">
+  6. استخراج الرابط واختبار الموقع
+</h3>
+
+<CommandBlock
+  command="sudo systemctl restart tor"
+  comment="إعادة تشغيل Tor وعرض عنوان الـ .onion الخاص بموقعك"
+  i18nComment="article4Step6Comment"
+/>
+<CommandBlock command="sudo cat /var/lib/tor/myweb/hostname" />
+
+<p data-i18n="article4Step6P1">
+  الآن قم بنسخ العنوان الناتج (الذي ينتهي بـ .onion) وافتحه باستخدام متصفح تور
+  (Tor Browser) لتصفح موقعك المخفي.
+</p>
+
+---
+
+<h2 id="bonus-ssh" data-i18n="article4SSHHeading">
+  🎁 خطوة إضافية: استضافة خدمة SSH عبر Tor
+</h2>
+
+<p data-i18n="article4SSHP1">
+  يمكنك أيضاً إدارة الخادم عن بُعد وبشكل مخفي عبر إنشاء خدمة Onion لـ SSH.
+</p>
+
+<CommandBlock command="sudo apt install -y openssh-server" />
+
+<p data-i18n="article4SSHAfterInstall">
+  وبعد ما يخلص:
+</p>
+
+<CommandBlock command="sudo systemctl enable --now ssh" />
+
+<p data-i18n="article4SSHVerify">
+  ثم تأكد أن SSH شغال:
+</p>
+
+<CommandBlock command="sudo systemctl status ssh" />
+
+<p data-i18n="article4SSHExpected">
+  المفروض تشوف:
+</p>
+
+<pre>
+  <code>Active: active (running)</code>
+</pre>
+
+<p data-i18n="article4SSHP2">
+  أضف التوجيهات التالية في ملف <code>torrc</code> ثم أعد تشغيل خدمة Tor واستخرج
+  العنوان:
+</p>
+
+<pre>
+  <code>{`HiddenServiceDir /var/lib/tor/myssh/
+HiddenServicePort 22 127.0.0.1:22`}</code>
+</pre>
+
+<CommandBlock
+  command="sudo mkdir -p /var/lib/tor/myssh"
+  comment="إعداد مجلد SSH واستخراج عنوان الـ Onion الخاص بـ SSH"
+  i18nComment="article4SSHComment2"
+/>
+<CommandBlock command="sudo chown debian-tor:debian-tor /var/lib/tor/myssh" />
+<CommandBlock command="sudo chmod 700 /var/lib/tor/myssh" />
+<CommandBlock command="sudo systemctl restart tor" />
+<CommandBlock command="sudo cat /var/lib/tor/myssh/hostname" />
